@@ -1,4 +1,5 @@
    <!-- Bootstrap core JavaScript-->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -9,8 +10,9 @@
    <script src="../../assets/js/demo/datatables-demo.js"></script>
 
 
+
    <script>
-      function myAlery() {
+      function myAlerySuccess() {
          Swal.fire({
             title: 'สำเร็จ!',
             text: 'บันทึกข้อมูลสำเร็จ',

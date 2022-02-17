@@ -14,37 +14,72 @@
 
     <?php require_once("../template/navbar.php") ?>
     <!-- content -->
-
-    <div class="card">
-        <div class="card-header bg-success text-white">
-            <h3> ประเภทสินค้า </h3>
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3>เพิ่มประเภทสินค้า</h3>
+                </div>
+                <div class="card-body">
+                    <form id="formType">
+                        <div class="form-group">
+                            <label for="type_name">ประเภทสินค้า</label>
+                            <input type="text" class="form-control" id="type_name" name="type_name" placeholder="ประเภทสินค้า..." required>
+                            <input type="hidden" name="action" value="insert" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success btn-block" name="article_toppic" value="ตกลง">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table " id="data">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>test</th>
-                            <th>test</th>
-                            <th>test</th>
-                            <th>test</th>
-                            <th>test</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php for ($i = 1; $i < 20; $i++) { ?>
-                            <tr>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
-                                <td>test</td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3> ประเภทสินค้า </h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dataT"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">แก้ไข ประเภทสินค้า</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTypeEdit">
+                        <div class="form-group">
+                            <label for="type_name">ประเภทสินค้า</label>
+                            <input type="text" class="form-control" id="type_name_edit" name="type_name" placeholder="ประเภทสินค้า..." required>
+                            <input type="hidden" id="type_id_edit" name="type_id" required>
+                            <input type="hidden" name="action" value="update" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">ยกเลิก</button>
+                                </div>
+                                <div class="col-6">
+                                    <input type="submit" class="btn btn-success btn-block" name="article_toppic" value="ตกลง">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
             </div>
         </div>
     </div>
@@ -53,17 +88,143 @@
     <?php require_once("../template/footer.php") ?>
     <?php require_once("../template/linkfooter.php") ?>
     <script>
-        $(function() {
-            $('#data').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+        $('#dataT').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+
+            ajax: {
+                url: '../../server/product_type/',
+                data: function() {
+                    return {
+                        action: 'show'
+                    };
+                },
+                dataSrc: '',
+                method: 'POST'
+            },
+            columns: [{
+                    data: 'id',
+                    title: "#",
+                    className: ''
+                },
+                {
+                    data: 'type_name',
+                    title: "ประเภทสินค้า",
+                    className: ''
+                },
+                {
+                    data: 'type_name',
+                    title: "แก้ไข",
+                    className: ''
+                },
+            ],
+            columnDefs: [{
+                targets: [-1],
+                render: function(data, type, row, meta) {
+                    let id = row['id'];
+                    return `
+                        <div>
+                        <a  class="btn btn-warning btn-sm mx-1"onclick="edit(${id})" data-toggle="modal" data-target="#modal">Edit</a>
+                        <a  class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(${id})">Delete</a>
+                        </div>
+                        `;
+                }
+            }],
         });
+
+        $('#formType').submit(function(e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+            $.ajax({
+                url: "../../server/product_type/",
+                type: 'POST',
+                data: data,
+                success: function() {
+                    myAlerySuccess();
+                    $('#dataT').DataTable().ajax.reload();
+                    $('#formType')[0].reset();
+                },
+                error: function() {
+                    myAleryError();
+                }
+            })
+
+        })
+        $('#formTypeEdit').submit(function(e) {
+            e.preventDefault();
+            let data = $(this).serialize();
+            $.ajax({
+                url: "../../server/product_type/",
+                type: 'POST',
+                data: data,
+                success: function() {
+                    myAlerySuccess();
+                    $('#modal').modal('hide')
+                    $('#dataT').DataTable().ajax.reload();
+                    $('#formType')[0].reset();
+                },
+                error: function() {
+                    myAleryError();
+                }
+            })
+
+        })
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'ยืนยันการลบ',
+                text: `ต้องการลบข้อมูลหรือไม่`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1CC88A',
+                cancelButtonColor: '#E74A3B',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "../../server/product_type/",
+                        type: 'POST',
+                        data: {
+                            action: 'delete',
+                            id: id
+                        },
+                        success: function() {
+                            $('#dataT').DataTable().ajax.reload();
+                            $('#formType')[0].reset();
+                        },
+                        error: function() {
+                            alert('ไม่สามารถเพิ่มข้อมูลได้');
+                        }
+                    })
+                }
+            })
+        }
+
+        function edit(id) {
+            $.ajax({
+                url: "../../server/product_type/",
+                type: 'POST',
+                data: {
+                    action: 'edit',
+                    id: id
+                },
+                success: function(res) {
+                    let dataEdit = JSON.parse(res);
+                    $('#type_id_edit').val(dataEdit[0].id);
+                    $('#type_name_edit').val(dataEdit[0].type_name);
+                },
+                error: function() {
+                    alert('ไม่สามารถเพิ่มข้อมูลได้');
+                }
+            })
+
+        }
     </script>
 </body>
 
