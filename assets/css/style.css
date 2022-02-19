@@ -10,3 +10,12 @@
   border: none;
   outline: none;
 }
+#uploadPreview {
+  width: 15rem;
+}
+.ck-editor__editable_inline {
+  min-height: 15rem;
+}
+.product_img_table {
+  width: 5rem;
+}

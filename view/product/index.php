@@ -14,47 +14,154 @@
 
     <?php require_once("../template/navbar.php") ?>
     <!-- content -->
-    <div class="table-responsive">
-        <table class="table table-bordered" id="data" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                    <th>test</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php for ($i = 1; $i < 20; $i++) { ?>
-                    <tr>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-12 my-3">
+            <a href="./form.php" class="btn btn-success">เพิ่มสินค้า</a>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3> สินค้า </h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="dataT"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <!-- content -->
     <?php require_once("../template/footer.php") ?>
     <?php require_once("../template/linkfooter.php") ?>
     <script>
-        $(function() {
-            $('#data').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+        $('#dataT').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+
+            ajax: {
+                url: '../../server/product/',
+                data: function() {
+                    return {
+                        action: 'show'
+                    };
+                },
+                dataSrc: '',
+                method: 'POST'
+            },
+            columns: [{
+                    data: 'id',
+                    title: "#",
+                    className: ''
+                },
+                {
+                    data: 'product_name',
+                    title: "รูป",
+                    className: ''
+                },
+                {
+                    data: 'product_name',
+                    title: "ชื่อสินค้า",
+                    className: ''
+                },
+                {
+                    data: 'product_price',
+                    title: "ราคาสินค้า",
+                    className: ''
+                },
+                {
+                    data: 'product_stock',
+                    title: "จำนวนสินค้าคงคลัง",
+                    className: ''
+                },
+                {
+                    data: 'id',
+                    title: "แก้ไข",
+                    className: ''
+                },
+            ],
+            columnDefs: [
+
+                {
+                    targets: 1,
+                    render: function(data, type, row, meta) {
+                        let img = row['product_img'];
+                        return `
+                            <div>
+                                <img src="../../server/image/${img}" class="product_img_table">
+                            </div>
+                        `;
+                    }
+                },
+                {
+                    targets: 3,
+                    render: $.fn.dataTable.render.number(',', 1, '')
+                },
+                {
+                    targets: 4,
+                    render: $.fn.dataTable.render.number(',', 1, '')
+                },
+                {
+                    targets: 5,
+                    render: function(data, type, row, meta) {
+                        let id = row['id'];
+                        return `
+                           <div>
+                              <a href="./edit.php?id=${id}" class="btn btn-warning btn-icon-split btn-sm" >
+                                <span class="icon text-white-50">
+                                    <i class="far fa-edit"></i>
+                                </span>
+                                <span class="text">แก้ไข</span>
+                            </a>
+                              <a class="btn btn-danger btn-icon-split btn-sm" onclick="confirmDelete(${id})">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-info"></i>
+                                </span>
+                                <span class="text">ลบ</span>
+                            </a>
+                      </div>
+                        `;
+                    }
+                },
+            ],
         });
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'ยืนยันการลบ',
+                text: `ต้องการลบข้อมูลหรือไม่`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1CC88A',
+                cancelButtonColor: '#E74A3B',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(id);
+                    $.ajax({
+                        url: "../../server/product/",
+                        type: 'POST',
+                        data: {
+                            action: 'delete',
+                            id: id
+                        },
+                        success: function() {
+                            $('#dataT').DataTable().ajax.reload();
+                        },
+                        error: function() {
+                            alert('ไม่สามารถเพิ่มข้อมูลได้');
+                        }
+                    })
+                }
+            })
+        }
     </script>
 </body>
 

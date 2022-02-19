@@ -129,9 +129,19 @@
                     let id = row['id'];
                     return `
                         <div>
-                        <a  class="btn btn-warning btn-sm mx-1"onclick="edit(${id})" data-toggle="modal" data-target="#modal">Edit</a>
-                        <a  class="btn btn-danger btn-sm mx-1" onclick="confirmDelete(${id})">Delete</a>
-                        </div>
+                            <a class="btn btn-warning btn-icon-split btn-sm" data-toggle="modal" data-target="#modal" onclick="edit(${id})">
+                                <span class="icon text-white-50">
+                                    <i class="far fa-edit"></i>
+                                </span>
+                                <span class="text">แก้ไข</span>
+                            </a>
+                              <a class="btn btn-danger btn-icon-split btn-sm" onclick="confirmDelete(${id})">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-info"></i>
+                                </span>
+                                <span class="text">ลบ</span>
+                            </a>
+                      </div>
                         `;
                 }
             }],
