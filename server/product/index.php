@@ -75,6 +75,19 @@ try {
 
         ];
         if ($_FILES['product_img']['name'] != "") {
+
+            $dataCheck = [
+                'id' => $_POST['id'],
+            ];
+            $sqlCheck = "SELECT * FROM product WHERE id = :id";
+            $queryCheck = $conn->prepare($sqlCheck);
+            $queryCheck->execute($dataCheck);
+            $rowCheck = $queryCheck->fetch();
+
+            if ($rowCheck['product_img'] != "") {
+                unlink("../image/" . $rowCheck['product_img']);
+            }
+
             // img
             $name = date("Ymd") . rand();
             $img_type = strrchr($_FILES['product_img']['name'], ".");

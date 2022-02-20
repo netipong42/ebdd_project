@@ -84,7 +84,7 @@ $rowType = $queryType->fetchAll();
                                     </div>
                                 </div>
 
-                                <img src="" alt="" id="uploadPreview">
+                                <img src="../../server/image/<?php echo $row['product_img'] ?>" alt="" id="uploadPreview" class="mb-3 mx-auto d-block">
 
                                 <div class="form-group">
                                     <div class="row">
@@ -156,9 +156,9 @@ $rowType = $queryType->fetchAll();
                 processData: false,
                 success: function() {
                     myAlerySuccess();
-                    $('#formProduct')[0].reset();
-                    $('#uploadPreview').attr('src', '');
-                    editor.setData("");
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
                 },
                 error: function() {
                     myAleryError();
