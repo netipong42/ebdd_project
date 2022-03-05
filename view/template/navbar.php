@@ -24,10 +24,16 @@
         <div class="sidebar-heading">
             สมาชิก
         </div>
+
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-user-edit"></i>
-                <span>จัดการสมาชิก</span></a>
+            <a class="nav-link" href="../supplier">
+                <i class="fas fa-file-signature"></i>
+                <span>ใบเสนอซื้อ (PR)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../supplier">
+                <i class="fas fa-clipboard-check"></i>
+                <span>ใบสั่งซื้อ (PO)</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="../supplier">
@@ -47,12 +53,6 @@
                 </div>
             </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-images"></i>
-                <span>รูปประจำตัวสมาชิก</span></a>
-        </li>
-
 
         <hr class="sidebar-divider d-none d-md-block">
         <li class="nav-item">

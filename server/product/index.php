@@ -17,6 +17,7 @@ try {
             'product_stock' => $_POST['product_stock'],
             'product_info' => $_POST['product_info'],
             'product_type' => $_POST['product_type'],
+            'product_supplier' => $_POST['product_supplier'],
             'product_img' => $newname,
         ];
 
@@ -27,6 +28,7 @@ try {
                         product_stock, 
                         product_info, 
                         product_type, 
+                        product_supplier, 
                         product_img
                         ) 
                     VALUES (
@@ -35,6 +37,7 @@ try {
                         :product_stock, 
                         :product_info, 
                         :product_type, 
+                        :product_supplier, 
                         :product_img
                         )";
         $query = $conn->prepare($sql);
@@ -72,6 +75,7 @@ try {
             'product_stock' => $_POST['product_stock'],
             'product_info' => $_POST['product_info'],
             'product_type' => $_POST['product_type'],
+            'product_supplier' => $_POST['product_supplier'],
 
         ];
         if ($_FILES['product_img']['name'] != "") {
@@ -102,6 +106,7 @@ try {
                         product_stock = :product_stock, 
                         product_info = :product_info, 
                         product_type = :product_type, 
+                        product_supplier = :product_supplier, 
                         product_img = :product_img
                         WHERE id = :id";
             $query = $conn->prepare($sql);
@@ -115,7 +120,8 @@ try {
                         product_price = :product_price, 
                         product_stock = :product_stock, 
                         product_info = :product_info, 
-                        product_type = :product_type
+                        product_type = :product_type,
+                        product_supplier = :product_supplier
                         WHERE id = :id";
             $query = $conn->prepare($sql);
             $query->execute($data);

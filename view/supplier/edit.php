@@ -1,20 +1,43 @@
 <?php
 require_once('../../server/connect.php');
 
-$sql = "SELECT * FROM product_type";
+$data = [
+    'id' => $_GET['id']
+];
+$sql = "SELECT * FROM supplier WHERE id = :id";
 $query = $conn->prepare($sql);
-$query->execute();
-$row = $query->fetchAll();
+$query->execute($data);
+$row = $query->fetch();
 
-$sql_province = "SELECT * FROM address_province ORDER BY ProvinceThai ASC";
-$query_province = $conn->prepare($sql_province);
-$query_province->execute();
-$row_province = $query_province->fetchAll();
+
 
 $sql_title = "SELECT * FROM title_name ORDER BY title_name ASC";
 $query_title = $conn->prepare($sql_title);
 $query_title->execute();
 $row_title = $query_title->fetchAll();
+
+$sql_province = "SELECT * FROM address_province  ORDER BY ProvinceThai ASC";
+$query_province = $conn->prepare($sql_province);
+$query_province->execute();
+$row_province = $query_province->fetchAll();
+
+$data_district = [
+    "ProvinceID" => $row['province']
+];
+
+$sql_district = "SELECT * FROM address_district WHERE ProvinceID = :ProvinceID ORDER BY DistrictName ASC";
+$query_district = $conn->prepare($sql_district);
+$query_district->execute($data_district);
+$row_district = $query_district->fetchAll();
+
+$data_tambon = [
+    "DistrictID" => $row['district']
+];
+
+$sql_tambon = "SELECT * FROM address_tambon WHERE DistrictID = :DistrictID ORDER BY TambonName ASC";
+$query_tambon = $conn->prepare($sql_tambon);
+$query_tambon->execute($data_tambon);
+$row_tambon = $query_tambon->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -38,22 +61,19 @@ $row_title = $query_title->fetchAll();
     <div class="row">
         <div class="col-8 mx-auto">
             <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h3>เพิ่มผู้จัดจำหน่าย</h3>
+                <div class="card-header bg-warning text-white">
+                    <h3>แก้ไขผู้จัดจำหน่าย</h3>
                 </div>
                 <div class="card-body">
                     <form id='formSupplier' method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="insert">
+                        <input type="hidden" name="action" value="update">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="product_name">ชื่อบริษัทผู้จัดจำหน่าย</label>
-                                    <input type="text" class="form-control" id="product_name" name="company_name" placeholder="ชื่อบริษัทผู้จัดจำหน่าย..." required>
+                                    <input type="text" class="form-control" id="product_name" name="company_name" placeholder="ชื่อบริษัทผู้จัดจำหน่าย..." value="<?php echo $row['company_name'] ?>" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="product_name">เลขประจำตัวผู้เสียภาษี</label>
-                                    <input type="text" class="form-control" id="product_name" name="tax" placeholder="เลขประจำตัวผู้เสียภาษี..." required>
-                                </div>
+
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-4">
@@ -61,18 +81,18 @@ $row_title = $query_title->fetchAll();
                                             <select class="form-control" id="product_title" name="title" required>
                                                 <option value="">--กรุณาเลือก--</option>
                                                 <?php foreach ($row_title as $item) :   ?>
-                                                    <option value="<?php echo $item['id']  ?>"> <?php echo $item['title_name']  ?>
+                                                    <option value="<?php echo $item['id']  ?>" <?php echo $item['id'] == $row['title'] ? "selected" : ""  ?>> <?php echo $item['title_name']  ?>
                                                     </option>
                                                 <?php endforeach  ?>
                                             </select>
                                         </div>
                                         <div class="col-4">
                                             <label for="product_stock">ชื่อ</label>
-                                            <input type="text" class="form-control" id="product_stock" name="name" placeholder="ชื่อ..." required>
+                                            <input type="text" class="form-control" name="name" placeholder="ชื่อ..." value="<?php echo $row['name'] ?>" required>
                                         </div>
                                         <div class="col-4">
                                             <label for="product_stock">นามสกุล</label>
-                                            <input type="text" class="form-control" id="product_stock" name="last" placeholder="นามสกุล..." required>
+                                            <input type="text" class="form-control" name="last" placeholder="นามสกุล..." value="<?php echo $row['last'] ?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -80,14 +100,14 @@ $row_title = $query_title->fetchAll();
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="product_name">อีเมล</label>
-                                            <input type="email" name="mail" class="form-control" placeholder="E-mail..." required>
+                                            <input type="email" name="mail" class="form-control" placeholder="E-mail..." value="<?php echo $row['mail'] ?>" required>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="product_name">เบอร์</label>
-                                            <input type="tel" name="phone" class="form-control" placeholder="เบอร์..." required>
+                                            <input type="tel" name="phone" class="form-control" placeholder="เบอร์..." value="<?php echo $row['phone'] ?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +115,7 @@ $row_title = $query_title->fetchAll();
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="product_name">รายละเอียดที่อยู่</label>
-                                            <input type="text" name="address" class="form-control" placeholder="รายละเอียดที่อยู่..." required>
+                                            <input type="text" name="address" class="form-control" placeholder="รายละเอียดที่อยู่..." value="<?php echo $row['address'] ?>" required>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +126,8 @@ $row_title = $query_title->fetchAll();
                                             <select class="form-control" name="province" id="province" required>
                                                 <option value="">--กรุณาเลือก--</option>
                                                 <?php foreach ($row_province as $item) :   ?>
-                                                    <option value="<?php echo $item['ProvinceID']  ?>"> <?php echo $item['ProvinceThai']  ?>
+                                                    <option value="<?php echo $item['ProvinceID']  ?>" <?php echo $item['ProvinceID'] == $row['province'] ? "selected" : ""  ?>>
+                                                        <?php echo $item['ProvinceThai']  ?>
                                                     </option>
                                                 <?php endforeach  ?>
                                             </select>
@@ -115,17 +136,27 @@ $row_title = $query_title->fetchAll();
                                             <label for="product_price">อำเภอ</label>
                                             <select class="form-control" id="district" name="district" required>
                                                 <option value="">--กรุณาเลือก--</option>
+                                                <?php foreach ($row_district as $item) :   ?>
+                                                    <option value="<?php echo $item['DistrictID']  ?>" <?php echo $item['DistrictID'] == $row['district'] ? "selected" : ""  ?>>
+                                                        <?php echo $item['DistrictName']  ?>
+                                                    </option>
+                                                <?php endforeach  ?>
                                             </select>
                                         </div>
                                         <div class="col-3">
                                             <label for="product_price">ตำบล</label>
                                             <select class="form-control" id="tambon" name="tambon" required>
                                                 <option value="">--กรุณาเลือก--</option>
+                                                <?php foreach ($row_tambon as $item) :   ?>
+                                                    <option value="<?php echo $item['TambonID']  ?>" <?php echo $item['TambonID'] == $row['tambon'] ? "selected" : ""  ?>>
+                                                        <?php echo $item['TambonName']  ?>
+                                                    </option>
+                                                <?php endforeach  ?>
                                             </select>
                                         </div>
                                         <div class="col-3">
                                             <label for="product_name">รหัสไปรษณีย์</label>
-                                            <input type="text" id="zipcode" name="zipcode" class="form-control" readonly>
+                                            <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php echo $row['zipcode'] ?>" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -136,6 +167,7 @@ $row_title = $query_title->fetchAll();
                                             <a href="./index.php" class="btn btn-outline-danger btn-block">ย้อนกลับ</a>
                                         </div>
                                         <div class="col-6">
+                                            <input type="hidden" class="form-control" name="id" value="<?php echo $row['id'] ?>" required>
                                             <input type="submit" class="btn btn-success btn-block" value="บันทึก">
                                         </div>
                                     </div>
@@ -166,7 +198,9 @@ $row_title = $query_title->fetchAll();
                 processData: false,
                 success: function() {
                     myAlerySuccess();
-                    $('#formSupplier')[0].reset();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
                 },
                 error: function() {
                     myAleryError();

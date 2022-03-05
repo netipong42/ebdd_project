@@ -5,6 +5,12 @@ $query = $conn->prepare($sql);
 $query->execute();
 $row = $query->fetchAll();
 
+
+$sql_supplier = "SELECT * FROM supplier";
+$query_supplier = $conn->prepare($sql_supplier);
+$query_supplier->execute();
+$row_supplier = $query_supplier->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,6 +56,15 @@ $row = $query->fetchAll();
                                             <input type="number" class="form-control" id="product_stock" name="product_stock" placeholder="จำนวนสินค้า..." required>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product_name">ผู้จัดจำหน่าย</label>
+                                    <select name="product_supplier" class="form-control" required>
+                                        <option value="">---เลือกผู้จัดจำหน่าย---</option>
+                                        <?php foreach ($row_supplier as $item) : ?>
+                                            <option value="<?php echo $item['id'] ?>"><?php echo $item['company_name'] ?></option>
+                                        <?php endforeach ?>
+                                    </select>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">

@@ -143,7 +143,7 @@
                 if (result.isConfirmed) {
                     console.log(id);
                     $.ajax({
-                        url: "../../server/product/",
+                        url: "../../server/supplier/",
                         type: 'POST',
                         data: {
                             action: 'delete',
