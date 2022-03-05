@@ -30,6 +30,11 @@
                 <span>จัดการสมาชิก</span></a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="../supplier">
+                <i class="fas fa-user-edit"></i>
+                <span>จัดการตัวแทนจำหน่าย</span></a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>จัดการสินค้า</span>
