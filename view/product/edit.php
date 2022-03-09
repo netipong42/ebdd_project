@@ -8,12 +8,17 @@ $query = $conn->prepare($sql);
 $query->execute($data);
 $row = $query->fetch();
 
-$sqlType = "SELECT * FROM product_type ";
+$sqlType = "SELECT * FROM product_type  ORDER BY type_name ASC";
 $queryType = $conn->prepare($sqlType);
 $queryType->execute();
 $rowType = $queryType->fetchAll();
 
-$sql_supplier = "SELECT * FROM supplier";
+$sqlUnit = "SELECT * FROM product_unit ORDER BY unit_name ASC";
+$queryUnit = $conn->prepare($sqlUnit);
+$queryUnit->execute();
+$rowUnit = $queryUnit->fetchAll();
+
+$sql_supplier = "SELECT * FROM supplier ORDER BY company_name ASC";
 $query_supplier = $conn->prepare($sql_supplier);
 $query_supplier->execute();
 $row_supplier = $query_supplier->fetchAll();
@@ -75,7 +80,7 @@ $row_supplier = $query_supplier->fetchAll();
                                     </select>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="product_name">ประเภทสินค้า</label>
                                             <select name="product_type" class="form-control" required>
@@ -86,8 +91,19 @@ $row_supplier = $query_supplier->fetchAll();
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label for="product_name">หน่วยนับสินค้า</label>
+                                            <select name="product_unit" class="form-control" required>
+                                                <option value="">---เลือกหน่วยนับสินค้า---</option>
+                                                <?php foreach ($rowUnit as $item) : ?>
+                                                    <option value="<?php echo $item['id'] ?>" <?php echo $item['id'] == $row['product_unit'] ? "selected" : "" ?>><?php echo $item['unit_name'] ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="img" class="form-label">รูปสินค้า</label>
                                             <div class="custom-file">

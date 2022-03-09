@@ -18,13 +18,13 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h3>เพิ่มประเภทสินค้า</h3>
+                    <h3>เพิ่มหน่วยนับสินค้า</h3>
                 </div>
                 <div class="card-body">
                     <form id="formType">
                         <div class="form-group">
                             <label for="type_name">ประเภทสินค้า</label>
-                            <input type="text" class="form-control" id="type_name" name="type_name" placeholder="ประเภทสินค้า..." required>
+                            <input type="text" class="form-control" id="unit_name" name="unit_name" placeholder="หน่วยนับสินค้า..." required>
                             <input type="hidden" name="action" value="insert" required>
                         </div>
                         <div class="form-group">
@@ -52,7 +52,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">แก้ไข ประเภทสินค้า</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">แก้ไข หน่วยนับสินค้า</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -60,9 +60,9 @@
                 <div class="modal-body">
                     <form id="formTypeEdit">
                         <div class="form-group">
-                            <label for="type_name">ประเภทสินค้า</label>
-                            <input type="text" class="form-control" id="type_name_edit" name="type_name" placeholder="ประเภทสินค้า..." required>
-                            <input type="hidden" id="type_id_edit" name="type_id" required>
+                            <label for="type_name">หน่วยนับสินค้า</label>
+                            <input type="text" class="form-control" id="unit_name_edit" name="unit_name" placeholder="หน่วยนับสินค้า..." required>
+                            <input type="hidden" id="unit_id_edit" name="unit_id" required>
                             <input type="hidden" name="action" value="update" required>
                         </div>
                         <div class="form-group">
@@ -98,7 +98,7 @@
             "responsive": true,
 
             ajax: {
-                url: '../../server/product_type/',
+                url: '../../server/product_unit/',
                 data: function() {
                     return {
                         action: 'show'
@@ -113,12 +113,12 @@
                     className: ''
                 },
                 {
-                    data: 'type_name',
-                    title: "ประเภทสินค้า",
+                    data: 'unit_name',
+                    title: "หน่วยนับสินค้า",
                     className: ''
                 },
                 {
-                    data: 'type_name',
+                    data: 'unit_name',
                     title: "แก้ไข",
                     className: ''
                 },
@@ -156,7 +156,7 @@
             e.preventDefault();
             let data = $(this).serialize();
             $.ajax({
-                url: "../../server/product_type/",
+                url: "../../server/product_unit/",
                 type: 'POST',
                 data: data,
                 success: function() {
@@ -174,7 +174,7 @@
             e.preventDefault();
             let data = $(this).serialize();
             $.ajax({
-                url: "../../server/product_type/",
+                url: "../../server/product_unit/",
                 type: 'POST',
                 data: data,
                 success: function() {
@@ -203,7 +203,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "../../server/product_type/",
+                        url: "../../server/product_unit/",
                         type: 'POST',
                         data: {
                             action: 'delete',
@@ -223,7 +223,7 @@
 
         function edit(id) {
             $.ajax({
-                url: "../../server/product_type/",
+                url: "../../server/product_unit/",
                 type: 'POST',
                 data: {
                     action: 'edit',
@@ -231,8 +231,8 @@
                 },
                 success: function(res) {
                     let dataEdit = JSON.parse(res);
-                    $('#type_id_edit').val(dataEdit[0].id);
-                    $('#type_name_edit').val(dataEdit[0].type_name);
+                    $('#unit_id_edit').val(dataEdit[0].id);
+                    $('#unit_name_edit').val(dataEdit[0].unit_name);
                 },
                 error: function() {
                     alert('ไม่สามารถเพิ่มข้อมูลได้');

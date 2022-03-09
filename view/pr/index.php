@@ -16,12 +16,12 @@
     <!-- content -->
     <div class="row">
         <div class="col-12 my-3">
-            <a href="./form.php" class="btn btn-success">เพิ่มสินค้า</a>
+            <a href="./form.php" class="btn btn-success">สร้างใบเสนอซื้อ</a>
         </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h3> สินค้า </h3>
+                    <h3> ใบเสนอซื้อ (PR) </h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -46,7 +46,7 @@
             "responsive": true,
 
             ajax: {
-                url: '../../server/product/',
+                url: '../../server/pr/',
                 data: function() {
                     return {
                         action: 'show'
@@ -61,38 +61,28 @@
                     className: ''
                 },
                 {
-                    data: 'product_name',
-                    title: "รูป",
-                    className: ''
-                },
-                {
-                    data: 'product_name',
-                    title: "ชื่อสินค้า",
-                    className: ''
-                },
-                {
-                    data: 'product_price',
-                    title: "ราคาสินค้า",
-                    className: ''
-                },
-                {
-                    data: 'product_stock',
-                    title: "จำนวนสินค้าคงคลัง",
-                    className: ''
-                },
-                {
-                    data: 'type_name',
-                    title: "ประเภทสินค้า",
-                    className: ''
-                },
-                {
-                    data: 'unit_name',
-                    title: "จำนวนนับ",
+                    data: 'id',
+                    title: "วันที่เอกสาร",
                     className: ''
                 },
                 {
                     data: 'id',
-                    title: "แก้ไข",
+                    title: "เลขที่เอกสาร",
+                    className: ''
+                },
+                {
+                    data: 'id',
+                    title: "ชื่อผู้ซื้อ",
+                    className: ''
+                },
+                {
+                    data: 'id',
+                    title: "จำนวนเงิน",
+                    className: ''
+                },
+                {
+                    data: 'id',
+                    title: "สถานะ",
                     className: ''
                 },
             ],
@@ -104,28 +94,8 @@
                         return `${meta.row + 1}`;
                     }
                 },
-
                 {
-                    targets: 1,
-                    render: function(data, type, row, meta) {
-                        let img = row['product_img'];
-                        return `
-                            <div>
-                                <img src="../../server/image/${img}" class="product_img_table">
-                            </div>
-                        `;
-                    }
-                },
-                {
-                    targets: 3,
-                    render: $.fn.dataTable.render.number(',', 1, '')
-                },
-                {
-                    targets: 4,
-                    render: $.fn.dataTable.render.number(',', 1, '')
-                },
-                {
-                    targets: 7,
+                    targets: 5,
                     render: function(data, type, row, meta) {
                         let id = row['id'];
                         return `
@@ -163,7 +133,7 @@
                 if (result.isConfirmed) {
                     console.log(id);
                     $.ajax({
-                        url: "../../server/product/",
+                        url: "../../server/pr/",
                         type: 'POST',
                         data: {
                             action: 'delete',

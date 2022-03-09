@@ -19,3 +19,6 @@
 .product_img_table {
   width: 5rem;
 }
+.pointer {
+  cursor: pointer;
+}

@@ -26,12 +26,12 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="../supplier">
+            <a class="nav-link" href="../pr">
                 <i class="fas fa-file-signature"></i>
                 <span>ใบเสนอซื้อ (PR)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="../supplier">
+            <a class="nav-link" href="../po">
                 <i class="fas fa-clipboard-check"></i>
                 <span>ใบสั่งซื้อ (PO)</span></a>
         </li>
@@ -50,6 +50,7 @@
                     <h6 class="collapse-header">Custom Components:</h6>
                     <a class="collapse-item" href="../product">สินค้า</a>
                     <a class="collapse-item" href="../product_type">ประเภท</a>
+                    <a class="collapse-item" href="../product_unit">หน่วยนับ</a>
                 </div>
             </div>
         </li>

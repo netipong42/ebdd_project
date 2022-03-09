@@ -92,6 +92,11 @@
                 },
             ],
             columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        return `${meta.row + 1}`;
+                    }
+                }, {
                     targets: 2,
                     render: function(dat, type, row, meta) {
                         return `
