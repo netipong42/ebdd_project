@@ -179,8 +179,8 @@ $row_unit = $query_unit->fetchAll();
                                             <th scope="col" class="text-nowrap">หน่วยนับ</th>
                                             <th scope="col" class="text-nowrap">คลัง</th>
                                             <th scope="col" class="text-nowrap">ราคา</th>
-                                            <th scope="col" class="text-nowrap">หน่วย</th>
-                                            <th scope="col" class="text-nowrap">ส่วนลด</th>
+                                            <th scope="col" class="text-nowrap">จำนวน</th>
+                                            <th scope="col" class="text-nowrap">ส่วนลด %</th>
                                             <th scope="col" class="text-nowrap">จำนวนเงิน</th>
                                         </tr>
                                     </thead>
@@ -189,8 +189,8 @@ $row_unit = $query_unit->fetchAll();
                                     </tbody>
                                     <tfoot>
                                         <tr id="warning_product">
-                                            <td colspan="9" class="text-red">
-                                                **กรุณากดปุ่ม "เลือกสินค้า" เพื่อเลือกอย่างน้อย 1 รายการ
+                                            <td colspan="9" class="text-danger text-center">
+                                                *** กรุณากดปุ่ม "เลือกสินค้า" เพื่อเลือกอย่างน้อย 1 รายการ ***
                                             </td>
 
                                         </tr>
@@ -401,6 +401,8 @@ $row_unit = $query_unit->fetchAll();
                     $('#name').val(name)
                     $('#document_no').val(document_no)
 
+                    // Delete product old
+                    $("#show_prodcut_select").children().remove();
                     // inventory
                     let data_inventory = data.inventory
                     let tableinventory = $('#tableinventory').DataTable();
@@ -441,6 +443,7 @@ $row_unit = $query_unit->fetchAll();
 
 
         // เลือกสินค้า
+        var lenData = 0;
         $("#select_inventory").click(function() {
             let list_product = [];
             $("input:checkbox[name=inventory_no]:checked").each(function() {
@@ -454,6 +457,7 @@ $row_unit = $query_unit->fetchAll();
                 },
                 dataType: 'json',
                 success: function(data) {
+                    lenData = data.length;
                     $("#warning_product").remove();
                     $("#show_prodcut_select").children().remove();
                     data.forEach((item, index) => {
@@ -462,7 +466,7 @@ $row_unit = $query_unit->fetchAll();
                             <td>${index+1}</td>
                             <td>
                                 <div>
-                                    <img src='../../server/image/${item.product_img}' width="100">
+                                    <img src='../../server/image/${item.product_img}' width="64">
                                 </div>
                             </td>
                             <td>${item.id}</td>
@@ -470,46 +474,39 @@ $row_unit = $query_unit->fetchAll();
                             <td>${item.unit_name}</td>
                             <td>${item.company_name}</td>
                             <td>
-                                <input type="number" class="form-control" onchange='getValue(this)' name="price" value="${item.product_price}" required>
+                                <input type="number" class="form-control" oninput='getValue(this)' name="price" value="${item.product_price}" required>
                             </td>
                             <td>
-                                <input type="number" class="form-control" onchange='getValue(this)' name="qty" value="1" required>
+                                <input type="number" class="form-control" oninput='getValue(this)' name="qty" value="0" required>
                             </td>
                               <td>
-                                <input type="number" class="form-control" onchange='getValue(this)' name="discount" value="0">
+                                <input type="number" class="form-control" oninput='getValue(this)' name="discount"  value="0" required>
                             </td>
-                            <td><input type="number" class="form-control"  name="total" readonly> </td>
+                            <td><input type="number" class="form-control"  name="total" value="0" readonly> </td>
                         </tr>
                         `);
                     });
-
+                    getValue()
                 },
                 error: function() {}
             })
         });
 
 
-        function getValue(data) {
+        function getValue(e) {
 
-            // price
-            let price = 0;
-            $("input[name=price]").each(function(index) {
-                price += parseInt($(this).val());
-                console.log(index)
-                $(`input[name=total]:eq(${index})`).val(price);
-            });
-
-            // qty
-            let qty = 0;
-            $("input[name=qty]").each(function() {
-                qty += parseInt($(this).val());
-            });
-
-            // discount
-            let discount = 0;
-            $("input[name=discount]").each(function() {
-                discount += parseInt($(this).val());
-            });
+            if (e.value < 0) {
+                myAleryError();
+                e.value = 0;
+            } else {
+                // calulate total 
+                for (let index = 0; index < lenData; index++) {
+                    let vPrice = parseInt($("input[name=price]").eq(index).val());
+                    let vQty = parseInt($("input[name=qty]").eq(index).val());
+                    let vDiscount = parseInt($("input[name=discount]").eq(index).val());
+                    $("input[name=total]").eq(index).val((vPrice * vQty) - ((vPrice * vQty) * vDiscount / 100));
+                }
+            }
         }
     </script>
 </body>

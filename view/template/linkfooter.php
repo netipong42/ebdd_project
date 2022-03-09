@@ -25,7 +25,7 @@
       function myAleryError() {
          Swal.fire({
             title: 'ผิดผลาด!',
-            text: 'ตรวจสอบคะแนน',
+            text: 'ตรวจสอบข้อมูล',
             icon: 'error',
             timer: 1500,
             showConfirmButton: false,
