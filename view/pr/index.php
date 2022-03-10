@@ -61,29 +61,34 @@
                     className: ''
                 },
                 {
-                    data: 'id',
+                    data: 'docCreated',
                     title: "วันที่เอกสาร",
                     className: ''
                 },
                 {
-                    data: 'id',
+                    data: 'document_no',
                     title: "เลขที่เอกสาร",
                     className: ''
                 },
                 {
-                    data: 'id',
+                    data: 'company_name',
                     title: "ชื่อผู้ซื้อ",
                     className: ''
                 },
                 {
-                    data: 'id',
+                    data: 'totalFanal',
                     title: "จำนวนเงิน",
-                    className: ''
+                    className: 'text-right'
+                },
+                {
+                    data: 'id',
+                    title: "ตรวจสอบ",
+                    className: 'text-right'
                 },
                 {
                     data: 'id',
                     title: "สถานะ",
-                    className: ''
+                    className: 'text-right'
                 },
             ],
             columnDefs: [
@@ -93,6 +98,10 @@
                     render: function(data, type, row, meta) {
                         return `${meta.row + 1}`;
                     }
+                },
+                {
+                    targets: 4,
+                    render: $.fn.dataTable.render.number(',', '.', 2, '')
                 },
                 {
                     targets: 5,
@@ -113,6 +122,26 @@
                                 <span class="text">ลบ</span>
                             </a>
                       </div>
+                        `;
+                    }
+                },
+                {
+                    targets: 6,
+                    render: function(data, type, row, meta) {
+                        let status = row['status'];
+                        let text = '';
+                        let color = '';
+                        if (status == 1) {
+                            text = 'รอการตรวจสอบ';
+                            color = 'warning';
+                        } else {
+                            text = 'ยกเลิก';
+                            color = 'danger';
+                        }
+                        return `
+                            <div>
+                            <span class="badge badge-${color} p-2">${text}</span>
+                            </div>
                         `;
                     }
                 },

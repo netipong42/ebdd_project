@@ -16,10 +16,6 @@ $query_supplier = $conn->prepare($sql_supplier);
 $query_supplier->execute();
 $row_supplier = $query_supplier->fetchAll();
 
-$sql_unit = "SELECT * FROM product_unit ORDER BY unit_name ASC";
-$query_unit = $conn->prepare($sql_unit);
-$query_unit->execute();
-$row_unit = $query_unit->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -57,8 +53,9 @@ $row_unit = $query_unit->fetchAll();
                             <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
                         </li>
                     </ul>
-                    <form action="../../server/supplier/supplier_insert.php" method="post" enctype="multipart/form-data">
-                        <!-- info -->
+                    <!-- info -->
+                    <form action="../../server/pr/pr_insert.php" method="post" id="formInsert" enctype="multipart/form-data">
+
                         <div class="tab-content pt-4" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="row">
@@ -67,7 +64,7 @@ $row_unit = $query_unit->fetchAll();
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">รหัสผู้ขาย</label>
                                             <div class="col-sm-8">
                                                 <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" id="supplier_code" readonly>
+                                                    <input type="text" class="form-control" name="supplier_code" id="supplier_code" required readonly>
                                                     <div class="input-group-append pointer" data-toggle="modal" data-target="#exampleModal">
                                                         <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
                                                     </div>
@@ -79,7 +76,7 @@ $row_unit = $query_unit->fetchAll();
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">เลขที่เอกสาร</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="document_no" required readonly>
+                                                <input type="text" class="form-control" name="document_no" id="document_no" required readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -87,7 +84,7 @@ $row_unit = $query_unit->fetchAll();
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">วันที่เอกสาร</label>
                                             <div class="col-sm-8">
-                                                <input type="date" class="form-control" id="inputPassword" value="<?php echo date("Y-m-d"); ?>" required>
+                                                <input type="date" class="form-control" id="inputPassword" name="docCreated" value="<?php echo date("Y-m-d"); ?>" required>
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +105,7 @@ $row_unit = $query_unit->fetchAll();
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">ต้องการภายใน (วัน)</label>
                                             <div class="col-sm-8">
-                                                <input type="date" class="form-control" id="inputPassword" required>
+                                                <input type="date" class="form-control" id="inputPassword" name="docWant" required>
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +113,7 @@ $row_unit = $query_unit->fetchAll();
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">วันที่สิ้นสุด</label>
                                             <div class="col-sm-8">
-                                                <input type="date" class="form-control" id="inputPassword" required>
+                                                <input type="date" class="form-control" id="inputPassword" name="docExe" required>
                                             </div>
                                         </div>
                                     </div>
@@ -137,7 +134,7 @@ $row_unit = $query_unit->fetchAll();
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">เครดิต (วัน)</label>
                                             <div class="col-sm-8">
-                                                <input type="number" class="form-control" id="inputPassword" required>
+                                                <input type="number" class="form-control" id="inputPassword" name="credit" required>
                                             </div>
                                         </div>
                                     </div>
@@ -145,15 +142,7 @@ $row_unit = $query_unit->fetchAll();
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">กำหนดส่งของ</label>
                                             <div class="col-sm-8">
-                                                <input type="date" class="form-control" id="inputPassword" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="form-group row">
-                                            <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form ">ใบเสนอราคาอ้างอิง</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" class="form-control" id="inputPassword" required>
+                                                <input type="date" class="form-control" id="inputPassword" name="sendProduct" required>
                                             </div>
                                         </div>
                                     </div>
@@ -192,40 +181,57 @@ $row_unit = $query_unit->fetchAll();
                                             <td colspan="9" class="text-danger text-center">
                                                 *** กรุณากดปุ่ม "เลือกสินค้า" เพื่อเลือกอย่างน้อย 1 รายการ ***
                                             </td>
-
                                         </tr>
                                         <tr>
+
+                                            <input type="text" class="input-hidden" id="totalMoney" name="totalMoney">
+                                            <input type="text" class="input-hidden" id="totalDiscount" name="totalDiscount">
+                                            <input type="text" class="input-hidden" id="totalVat" name="totalVat">
+                                            <input type="text" class="input-hidden" id="totalFanal" name="totalFanal">
+
                                             <td colspan="5" class="text-right">รวมเงิน</td>
-                                            <td colspan="5" class="text-right">0.00</td>
+                                            <td colspan="5" class="text-right" id="totalAll">
+                                                0.00
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">ส่วนลดการค้า</td>
-                                            <td colspan="4" class="text-right">0.00%</td>
-                                            <td colspan="1" class="text-right">0.00</td>
+                                            <td colspan="4" class="text-right">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="number" placeholder="0" min="0" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right">
+                                                    <span class="ml-3">%</span>
+                                                </div>
+                                            </td>
+                                            <td colspan="1" class="text-right" id="totalDiscountNum">0.00</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">เงินก่อนหักภาษี</td>
-                                            <td colspan="5" class="text-right">0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5" class="text-right">ฐานภาษี</td>
-                                            <td colspan="5" class="text-right">0.00</td>
+                                            <td colspan="5" class="text-right" id="beforeTax">0.00</td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">ภาษีมูลค่าเพิ่ม</td>
-                                            <td colspan="3" class="text-right">PO-EX7</td>
-                                            <td colspan="1" class="text-right">7.00</td>
-                                            <td colspan="1" class="text-right">0.00</td>
+                                            <td colspan="3" class="text-right">
+                                                <select name="Tex" id="selectTax" class="form-control">
+                                                    <option value="1" selected>PO-EX7</option>
+                                                    <option value="2">PO-NO</option>
+                                                </select>
+                                            </td>
+                                            <td colspan="1" class="text-right">7%</td>
+                                            <td colspan="1" class="text-right" id="tax7">0.00</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="5" class="text-right">จำนวนเงินทั้งสิน</td>
-                                            <td colspan="5" class="text-right">0.00</td>
+                                            <td colspan=" 5" class="text-right">จำนวนเงินทั้งสิน</td>
+                                            <td colspan="5" class="text-right" id="finalTotal">0.00</td>
                                         </tr>
                                     </tfoot>
                                 </table>
                                 <!-- product -->
+                                <button type="submit" class="btn btn-success">Save</button>
                             </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+
+                            <div class=" tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <input type="text">
+                            </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
                         </div>
                     </form>
@@ -401,6 +407,21 @@ $row_unit = $query_unit->fetchAll();
                     $('#name').val(name)
                     $('#document_no').val(document_no)
 
+                    // tfoot
+                    $('#totalAll').html(`0.00`);
+                    $('#totalAll').html(`0.00`);
+                    $('#totalDiscountNum').html(`0.00`);
+                    $("#beforeTax").html(`0.00`);
+                    $("#tax7").html(`0.00`);
+                    $("#finalTotal").html(`0.00`);
+                    $("#totalDiscountPer").val(0);
+
+                    // hidden input 
+                    $("#totalMoney").val(0);
+                    $("#totalDiscount").val(0);
+                    $("#totalVat").val(0);
+                    $("#totalFanal").val(0);
+
                     // Delete product old
                     $("#show_prodcut_select").children().remove();
                     // inventory
@@ -460,6 +481,22 @@ $row_unit = $query_unit->fetchAll();
                     lenData = data.length;
                     $("#warning_product").remove();
                     $("#show_prodcut_select").children().remove();
+
+                    // tfoot
+                    $('#totalAll').html(`0.00`);
+                    $('#totalAll').html(`0.00`);
+                    $('#totalDiscountNum').html(`0.00`);
+                    $("#beforeTax").html(`0.00`);
+                    $("#tax7").html(`0.00`);
+                    $("#finalTotal").html(`0.00`);
+                    $("#totalDiscountPer").val(0);
+
+                    // hidden input 
+                    $("#totalMoney").val(0);
+                    $("#totalDiscount").val(0);
+                    $("#totalVat").val(0);
+                    $("#totalFanal").val(0);
+
                     data.forEach((item, index) => {
                         $("#show_prodcut_select").append(`
                         <tr>
@@ -469,20 +506,23 @@ $row_unit = $query_unit->fetchAll();
                                     <img src='../../server/image/${item.product_img}' width="64">
                                 </div>
                             </td>
-                            <td>${item.id}</td>
+                            <td>
+                            ${item.id}
+                             <input type="hidden" name="product_code[]" value="${item.id}" required>
+                            </td>
                             <td>${item.product_name}</td>
                             <td>${item.unit_name}</td>
                             <td>${item.company_name}</td>
                             <td>
-                                <input type="number" class="form-control" oninput='getValue(this)' name="price" value="${item.product_price}" required>
+                                <input type="number" class="form-control text-right price" oninput='getValue(this)' name="price[]" value="${item.product_price}" required>
                             </td>
                             <td>
-                                <input type="number" class="form-control" oninput='getValue(this)' name="qty" value="0" required>
+                                <input type="number" class="form-control text-right qty" oninput='getValue(this)' name="qty[]" value="0" required>
                             </td>
                               <td>
-                                <input type="number" class="form-control" oninput='getValue(this)' name="discount"  value="0" required>
+                                <input type="number" class="form-control text-right discount" oninput='getValue(this)' name="discount[]"  value="0" required>
                             </td>
-                            <td><input type="number" class="form-control"  name="total" value="0" readonly> </td>
+                            <td><input type="number" class="form-control text-right total"  name="total[]" value="0" readonly> </td>
                         </tr>
                         `);
                     });
@@ -490,6 +530,18 @@ $row_unit = $query_unit->fetchAll();
                 },
                 error: function() {}
             })
+        });
+
+
+        // Tex
+        var statusTax = true;
+        $("#selectTax").change(function() {
+            if ($(this).val() == 1) {
+                statusTax = true
+            } else {
+                statusTax = false
+            }
+            getValue($(this))
         });
 
 
@@ -501,13 +553,60 @@ $row_unit = $query_unit->fetchAll();
             } else {
                 // calulate total 
                 for (let index = 0; index < lenData; index++) {
-                    let vPrice = parseInt($("input[name=price]").eq(index).val());
-                    let vQty = parseInt($("input[name=qty]").eq(index).val());
-                    let vDiscount = parseInt($("input[name=discount]").eq(index).val());
-                    $("input[name=total]").eq(index).val((vPrice * vQty) - ((vPrice * vQty) * vDiscount / 100));
+                    let vPrice = parseFloat($('input.price').eq(index).val());
+                    let vQty = parseFloat($('input.qty').eq(index).val());
+                    let vDiscount = parseFloat($('input.discount').eq(index).val());
+                    $('input.total').eq(index).val((vPrice * vQty) - ((vPrice * vQty) * vDiscount / 100));
                 }
+
+                // calulate total all
+                let totalAll = 0;
+                $('input.total').each(function() {
+                    totalAll += parseFloat($(this).val());
+                });
+                $('#totalAll').html(new Intl.NumberFormat().format(totalAll.toFixed(2)) ? new Intl.NumberFormat().format(totalAll.toFixed(2)) : 0);
+                $("#totalMoney").val(parseFloat(totalAll.toFixed(2)));
+                // ส่วนลดการค้า
+                let totalDiscountPer = 0;
+                let inputDiscountPer = parseFloat($("#totalDiscountPer").val());
+                totalDiscountPer = parseFloat((totalAll * inputDiscountPer) / 100) ? parseFloat((totalAll * inputDiscountPer) / 100) : 0;
+                $('#totalDiscountNum').html(new Intl.NumberFormat().format(totalDiscountPer.toFixed(2)) ? new Intl.NumberFormat().format(totalDiscountPer.toFixed(2)) : 0);
+                $("#totalDiscount").val(parseFloat(totalDiscountPer.toFixed(2)));
+
+                // เงินก่อนหักภาษี
+                let beforeTax = totalAll - totalDiscountPer;
+                $("#beforeTax").html(new Intl.NumberFormat().format(beforeTax.toFixed(2)) ? new Intl.NumberFormat().format(beforeTax.toFixed(2)) : 0);
+
+                // ภาษีมูลค่าเพิ่ม
+                let tax7;
+                if (statusTax) {
+                    tax7 = parseFloat((beforeTax * 7) / 100) ? parseFloat((beforeTax * 7) / 100) : 0;
+                    $("#tax7").html(new Intl.NumberFormat().format(tax7.toFixed(2)) ? new Intl.NumberFormat().format(tax7.toFixed(2)) : 0);
+                } else {
+                    tax7 = 0;
+                    $("#tax7").html(0);
+                }
+                $("#totalVat").val(parseFloat(tax7.toFixed(2)));
+
+                // จำนวนเงินทั้งสิน finalTotal
+                let finalTotal = parseFloat(beforeTax + tax7);
+                $("#finalTotal").html(new Intl.NumberFormat().format(finalTotal.toFixed(2)) ? new Intl.NumberFormat().format(finalTotal.toFixed(2)) : 0);
+                $("#totalFanal").val(parseFloat(finalTotal.toFixed(2)));
+
             }
         }
+
+
+        $("#formInsert").submit(function(event) {
+            event.preventDefault();
+            $("#home input").each(function() {
+                if ($(this).val() == "") {
+                    myAleryError();
+                    return false;
+                }
+            });
+            return true;
+        })
     </script>
 </body>
 

@@ -51,7 +51,13 @@ try {
     }
 
     if (@$_POST['action'] == "show") {
-        $sql = "SELECT * FROM pr";
+        $sql = "SELECT 
+                p.*,
+                s.company_name 
+                FROM purchase AS p
+                INNER JOIN supplier AS s
+                ON p.supplier_code = s.id
+                ";
         $query = $conn->prepare($sql);
         $query->execute();
         $row = $query->fetchAll();
