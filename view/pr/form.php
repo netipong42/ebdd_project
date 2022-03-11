@@ -198,7 +198,7 @@ $row_supplier = $query_supplier->fetchAll();
                                             <td colspan="5" class="text-right">ส่วนลดการค้า</td>
                                             <td colspan="4" class="text-right">
                                                 <div class="d-flex align-items-center">
-                                                    <input type="number" placeholder="0" min="0" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right">
+                                                    <input type="number" placeholder="0" min="0" name="discountPer" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right">
                                                     <span class="ml-3">%</span>
                                                 </div>
                                             </td>
@@ -226,7 +226,9 @@ $row_supplier = $query_supplier->fetchAll();
                                     </tfoot>
                                 </table>
                                 <!-- product -->
-                                <button type="submit" class="btn btn-success">Save</button>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                </div>
                             </div>
 
                             <div class=" tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -595,18 +597,6 @@ $row_supplier = $query_supplier->fetchAll();
 
             }
         }
-
-
-        $("#formInsert").submit(function(event) {
-            event.preventDefault();
-            $("#home input").each(function() {
-                if ($(this).val() == "") {
-                    myAleryError();
-                    return false;
-                }
-            });
-            return true;
-        })
     </script>
 </body>
 

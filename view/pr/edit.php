@@ -19,13 +19,13 @@ $sql_purchase = "SELECT
 $query_purchase = $conn->prepare($sql_purchase);
 $query_purchase->execute($data);
 $row_purchase = $query_purchase->fetch(PDO::FETCH_ASSOC);
-
 $sql_detail = "SELECT
                 dt.*,
                 p.product_name,
                 p.product_img,
                 u.unit_name,
-                s.company_name
+                s.company_name,
+                p.id AS product_id
                 FROM purchase_detail AS dt
                 INNER JOIN purchase AS pc
                 ON dt.document_no = pc.id
@@ -78,7 +78,7 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                         </li>
                     </ul>
                     <!-- info -->
-                    <form action="../../server/pr/pr_insert.php" method="post" enctype="multipart/form-data">
+                    <form action="../../server/pr/pr_update.php" method="post" enctype="multipart/form-data">
 
                         <div class="tab-content pt-4" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -86,6 +86,8 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="col-4">
                                         <div class="form-group row">
                                             <label for="inputPassword" class="col-sm-4 col-form-label font-pr-form">รหัสผู้ขาย</label>
+                                            <input type="hidden" name="purchase_id" value="<?php echo $row_purchase['id'] ?>" required readonly>
+
                                             <div class="col-sm-8">
                                                 <div class="input-group mb-3">
                                                     <input type="text" class="form-control" name="supplier_code" id="supplier_code" value="<?php echo $row_purchase['supplier_code'] ?>" required readonly>
@@ -201,7 +203,7 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                                 </td>
                                                 <td>
                                                     <?php echo $item['id'] ?>
-                                                    <input type="hidden" name="product_code[]" value="<?php echo $item['id'] ?>" required>
+                                                    <input type="hidden" name="product_code[]" value="<?php echo $item['product_id'] ?>" required>
                                                 </td>
                                                 <td><?php echo $item['product_name'] ?></td>
                                                 <td><?php echo $item['unit_name'] ?></td>
@@ -222,29 +224,29 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                     <tfoot>
                                         <tr>
 
-                                            <input type="text" class="input-hidden" id="totalMoney" name="totalMoney">
-                                            <input type="text" class="input-hidden" id="totalDiscount" name="totalDiscount">
-                                            <input type="text" class="input-hidden" id="totalVat" name="totalVat">
-                                            <input type="text" class="input-hidden" id="totalFanal" name="totalFanal">
+                                            <input type="text" class="input-hidden" id="totalMoney" name="totalMoney" value="<?php echo $row_purchase["totalMoney"] ?>">
+                                            <input type="text" class="input-hidden" id="totalDiscount" name="totalDiscount" value="<?php echo $row_purchase["totalDiscount"] ?>">
+                                            <input type="text" class="input-hidden" id="totalVat" name="totalVat" value="<?php echo $row_purchase["totalVat"] ?>">
+                                            <input type="text" class="input-hidden" id="totalFanal" name="totalFanal" value="<?php echo  $row_purchase["totalFanal"] ?>">
 
                                             <td colspan="5" class="text-right">รวมเงิน</td>
                                             <td colspan="5" class="text-right" id="totalAll">
-                                                0.00
+                                                <?php echo $row_purchase['totalMoney']  ?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">ส่วนลดการค้า</td>
                                             <td colspan="4" class="text-right">
                                                 <div class="d-flex align-items-center">
-                                                    <input type="number" placeholder="0" min="0" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right">
+                                                    <input type="number" placeholder="0" min="0" name="discountPer" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right" value="<?php echo $row_purchase["discountPer"] ?>">
                                                     <span class="ml-3">%</span>
                                                 </div>
                                             </td>
-                                            <td colspan="1" class="text-right" id="totalDiscountNum">0.00</td>
+                                            <td colspan="1" class="text-right" id="totalDiscountNum"> <?php echo $row_purchase['totalDiscount']  ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">เงินก่อนหักภาษี</td>
-                                            <td colspan="5" class="text-right" id="beforeTax">0.00</td>
+                                            <td colspan="5" class="text-right" id="beforeTax"><?php echo $row_purchase['totalMoney'] + $row_purchase['totalDiscount']  ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">ภาษีมูลค่าเพิ่ม</td>
@@ -255,16 +257,18 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                                 </select>
                                             </td>
                                             <td colspan="1" class="text-right">7%</td>
-                                            <td colspan="1" class="text-right" id="tax7">0.00</td>
+                                            <td colspan="1" class="text-right" id="tax7"><?php echo $row_purchase['totalVat']  ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan=" 5" class="text-right">จำนวนเงินทั้งสิน</td>
-                                            <td colspan="5" class="text-right" id="finalTotal">0.00</td>
+                                            <td colspan="5" class="text-right" id="finalTotal"><?php echo $row_purchase['totalFanal']  ?></td>
                                         </tr>
                                     </tfoot>
                                 </table>
                                 <!-- product -->
-                                <button type="submit" class="btn btn-success">Save</button>
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-success">Save</button>
+                                </div>
                             </div>
 
                             <div class=" tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...

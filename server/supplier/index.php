@@ -6,6 +6,7 @@ try {
     if (@$_POST['action'] == "insert") {
         $data = [
             'company_name'  => $_POST['company_name'],
+            'tax'         => $_POST['tax'],
             'title'         => $_POST['title'],
             'name'          => $_POST['name'],
             'last'          => $_POST['last'],
@@ -21,6 +22,7 @@ try {
         $sql = "INSERT INTO supplier 
                         (
                         company_name,
+                        tax,
                         title,
                         name,
                         last,
@@ -34,6 +36,7 @@ try {
                         ) 
                     VALUES (
                         :company_name,
+                        :tax,
                         :title,
                         :name,
                         :last,

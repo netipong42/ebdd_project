@@ -57,7 +57,7 @@ try {
                 FROM purchase AS p
                 INNER JOIN supplier AS s
                 ON p.supplier_code = s.id
-                ";
+                ORDER BY id DESC";
         $query = $conn->prepare($sql);
         $query->execute();
         $row = $query->fetchAll();

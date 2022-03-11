@@ -73,7 +73,10 @@ $row_tambon = $query_tambon->fetchAll();
                                     <label for="product_name">ชื่อบริษัทผู้จัดจำหน่าย</label>
                                     <input type="text" class="form-control" id="product_name" name="company_name" placeholder="ชื่อบริษัทผู้จัดจำหน่าย..." value="<?php echo $row['company_name'] ?>" required>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="product_name">เลขประจำตัวผู้เสียภาษี</label>
+                                    <input type="text" class="form-control" id="product_name" name="tax" placeholder="เลขประจำตัวผู้เสียภาษี..." value="<?php echo $row['tax'] ?>" required>
+                                </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-4">

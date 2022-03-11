@@ -1,7 +1,6 @@
 <?php
 require_once('../connect.php');
 try {
-
     // Insert the new purchase
     $data = [
         'supplier_code' => $_POST['supplier_code'],
@@ -12,6 +11,7 @@ try {
         'credit'        => $_POST['credit'],
         'sendProduct'   => $_POST['sendProduct'],
         'totalMoney'    => $_POST['totalMoney'],
+        'discountPer'   => $_POST['discountPer'],
         'totalDiscount' => $_POST['totalDiscount'],
         'totalVat'      => $_POST['totalVat'],
         'totalFanal'    => $_POST['totalFanal'],
@@ -28,6 +28,7 @@ try {
                 credit,
                 sendProduct,
                 totalMoney,
+                discountPer,
                 totalDiscount,
                 totalVat,
                 totalFanal,
@@ -42,6 +43,7 @@ try {
                 :credit,
                 :sendProduct,
                 :totalMoney,
+                :discountPer,
                 :totalDiscount,
                 :totalVat,
                 :totalFanal,

@@ -107,22 +107,49 @@
                     targets: 5,
                     render: function(data, type, row, meta) {
                         let id = row['id'];
-                        return `
-                           <div>
-                              <a href="./edit.php?id=${id}" class="btn btn-warning btn-icon-split btn-sm" >
-                                <span class="icon text-white-50">
-                                    <i class="far fa-edit"></i>
-                                </span>
-                                <span class="text">แก้ไข</span>
-                            </a>
-                              <a class="btn btn-danger btn-icon-split btn-sm" onclick="confirmDelete(${id})">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-info"></i>
-                                </span>
-                                <span class="text">ลบ</span>
-                            </a>
-                      </div>
-                        `;
+                        let status = row['status'];
+                        if (status == 1 || status == 2) {
+                            return `
+                            <div>
+                                <a href="./edit.php?id=${id}" class="btn btn-warning btn-icon-split btn-sm" >
+                                    <span class="icon text-white-50">
+                                        <i class="far fa-edit"></i>
+                                    </span>
+                                    <span class="text">แก้ไข</span>
+                                </a>
+                                    <a href="./info.php?id=${id}" class="btn btn-success btn-icon-split btn-sm" >
+                                    <span class="icon text-white-50">
+                                        <i class="far fa-edit"></i>
+                                    </span>
+                                    <span class="text">อนุมัติ</span>
+                                </a>
+                                <a class="btn btn-danger btn-icon-split btn-sm" onclick="confirmDelete(${id})">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-info"></i>
+                                    </span>
+                                    <span class="text">ลบ</span>
+                                </a>
+                                <a href="./pr_pdf.php?id=${id}" target="_blank" class="btn btn-info btn-icon-split btn-sm">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-info"></i>
+                                    </span>
+                                    <span class="text">PDF</span>
+                                </a>
+                            </div>
+                            `;
+                        } else {
+                            return `
+                            <div>
+                           <a href="./pr_pdf.php?id=${id}" target="_blank" class="btn btn-info btn-icon-split btn-sm">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-info"></i>
+                                    </span>
+                                    <span class="text">PDF</span>
+                                </a>
+                            </div>
+                            `;
+                        }
+
                     }
                 },
                 {
@@ -134,9 +161,14 @@
                         if (status == 1) {
                             text = 'รอการตรวจสอบ';
                             color = 'warning';
-                        } else {
-                            text = 'ยกเลิก';
+                        }
+                        if (status == 2) {
+                            text = 'ไม่ผ่าน';
                             color = 'danger';
+                        }
+                        if (status == 3) {
+                            text = 'ผ่าน';
+                            color = 'success';
                         }
                         return `
                             <div>
