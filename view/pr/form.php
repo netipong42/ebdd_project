@@ -38,19 +38,15 @@ $row_supplier = $query_supplier->fetchAll();
     <!-- content -->
     <div class="row p-4">
         <div class="col-md-12">
-            <div class="card card-primary">
-                <div class="card-header">สร้างใบขอซื้อ (PR)</div>
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3>สร้างใบขอซื้อ (PR)</h3>
+                </div>
                 <div class="card-body">
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
                         </li>
                     </ul>
                     <!-- info -->
@@ -155,7 +151,6 @@ $row_supplier = $query_supplier->fetchAll();
                                     </div>
                                     <div class="col-8 text-right">
                                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalproduct">เลือกสินค้า</button>
-                                        <button type="button" class="btn btn-outline-success">ลบ</button>
                                     </div>
                                 </div>
                                 <table class="table table-bordered mt-3">
@@ -164,9 +159,8 @@ $row_supplier = $query_supplier->fetchAll();
                                             <th scope="col" class="text-nowrap">#</th>
                                             <th scope="col" class="text-nowrap">รูป</th>
                                             <th scope="col" class="text-nowrap">รหัสสินค้า</th>
-                                            <th scope="col" class="text-nowrap">ชื่อสินค้า</th>
+                                            <th scope="col" colspan="2" class="text-nowrap">ชื่อสินค้า</th>
                                             <th scope="col" class="text-nowrap">หน่วยนับ</th>
-                                            <th scope="col" class="text-nowrap">คลัง</th>
                                             <th scope="col" class="text-nowrap">ราคา</th>
                                             <th scope="col" class="text-nowrap">จำนวน</th>
                                             <th scope="col" class="text-nowrap">ส่วนลด %</th>
@@ -231,10 +225,6 @@ $row_supplier = $query_supplier->fetchAll();
                                 </div>
                             </div>
 
-                            <div class=" tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <input type="text">
-                            </div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
                         </div>
                     </form>
                 </div>
@@ -300,7 +290,7 @@ $row_supplier = $query_supplier->fetchAll();
                 </div>
                 <div class=" modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary " data-dismiss="modal" id="select_supplier">Save changes</button>
+                    <button type="button" class="btn btn-success " data-dismiss="modal" id="select_supplier">Save</button>
                 </div>
             </div>
         </div>
@@ -340,7 +330,7 @@ $row_supplier = $query_supplier->fetchAll();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="select_inventory" data-dismiss="modal">Save changes</button>
+                    <button type="button" class="btn btn-success" id="select_inventory" data-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>
@@ -512,9 +502,8 @@ $row_supplier = $query_supplier->fetchAll();
                             ${item.id}
                              <input type="hidden" name="product_code[]" value="${item.id}" required>
                             </td>
-                            <td>${item.product_name}</td>
+                            <td colspan="2">${item.product_name}</td>
                             <td>${item.unit_name}</td>
-                            <td>${item.company_name}</td>
                             <td>
                                 <input type="number" class="form-control text-right price" oninput='getValue(this)' name="price[]" value="${item.product_price}" required>
                             </td>

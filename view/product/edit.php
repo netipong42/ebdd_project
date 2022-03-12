@@ -18,6 +18,11 @@ $queryUnit = $conn->prepare($sqlUnit);
 $queryUnit->execute();
 $rowUnit = $queryUnit->fetchAll();
 
+$sqlHouse = "SELECT * FROM product_house ORDER BY house_name ASC";
+$querlHouse = $conn->prepare($sqlHouse);
+$querlHouse->execute();
+$rowHouse = $querlHouse->fetchAll();
+
 $sql_supplier = "SELECT * FROM supplier ORDER BY company_name ASC";
 $query_supplier = $conn->prepare($sql_supplier);
 $query_supplier->execute();
@@ -102,8 +107,19 @@ $row_supplier = $query_supplier->fetchAll();
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-4">
+                                        <div class="form-group">
+                                            <label for="product_name">คลังสินค้า</label>
+                                            <select name="product_house" class="form-control" required>
+                                                <option value="">---เลือกคลังสินค้า---</option>
+                                                <?php foreach ($rowHouse as $item) : ?>
+                                                    <option value="<?php echo $item['id'] ?>" <?php echo $item['id'] == $row['product_house'] ? "selected" : "" ?>><?php echo $item['house_name'] ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label for="img" class="form-label">รูปสินค้า</label>
                                             <div class="custom-file">

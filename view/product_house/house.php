@@ -1,3 +1,12 @@
+<?php
+// House
+require_once('../../server/connect.php');
+$data = ['id' => $_GET['id']];
+$slqHouse = "SELECT * FROM product_house AS h WHERE id=:id";
+$queryHouse = $conn->prepare($slqHouse);
+$queryHouse->execute($data);
+$rowHouseName = $queryHouse->fetch(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,13 +24,11 @@
     <?php require_once("../template/navbar.php") ?>
     <!-- content -->
     <div class="row">
-        <div class="col-12 my-3">
-            <a href="./form.php" class="btn btn-success">เพิ่มสินค้า</a>
-        </div>
+
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h3> สินค้า </h3>
+                    <h3> คลังสินค้า <?php echo $rowHouseName['house_name'] ?> </h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -31,11 +38,12 @@
             </div>
         </div>
     </div>
-
     <!-- content -->
     <?php require_once("../template/footer.php") ?>
     <?php require_once("../template/linkfooter.php") ?>
     <script>
+        let idHouse = <?php echo $_GET['id'] ?>;
+        console.log(idHouse);
         $('#dataT').DataTable({
             "paging": true,
             "lengthChange": false,
@@ -49,7 +57,8 @@
                 url: '../../server/product/',
                 data: function() {
                     return {
-                        action: 'show'
+                        action: 'showProductHouse',
+                        idHouse: idHouse
                     };
                 },
                 dataSrc: '',
@@ -96,11 +105,7 @@
                     className: ''
                 },
 
-                {
-                    data: 'id',
-                    title: "แก้ไข",
-                    className: ''
-                },
+
             ],
             columnDefs: [
 
@@ -131,60 +136,30 @@
                     render: $.fn.dataTable.render.number(',', 1, '')
                 },
                 {
-                    targets: 8,
+                    targets: 5,
                     render: function(data, type, row, meta) {
-                        let id = row['id'];
-                        return `
-                           <div>
-                              <a href="./edit.php?id=${id}" class="btn btn-warning btn-icon-split btn-sm" >
-                                <span class="icon text-white-50">
-                                    <i class="far fa-edit"></i>
-                                </span>
-                                <span class="text">แก้ไข</span>
-                            </a>
-                              <a class="btn btn-danger btn-icon-split btn-sm" onclick="confirmDelete(${id})">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-info"></i>
-                                </span>
-                                <span class="text">ลบ</span>
-                            </a>
-                      </div>
-                        `;
+                        let stock = row['product_stock'];
+                        if (stock <= 0) {
+                            return `
+                             ${stock}
+                             <sup class="badge badge-danger">สินค้าหมด</sup>
+                            `;
+                        } else if (stock <= 20) {
+                            return `
+                             ${stock}
+                             <sup class="badge badge-warning">สินค้าใกล้หมด</sup>
+                            `;
+                        } else {
+                            return `
+                             ${stock}
+                            `;
+                        }
                     }
+                    // render: $.fn.dataTable.render.number(',', 1, '')
                 },
+
             ],
         });
-
-        function confirmDelete(id) {
-            Swal.fire({
-                title: 'ยืนยันการลบ',
-                text: `ต้องการลบข้อมูลหรือไม่`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#1CC88A',
-                cancelButtonColor: '#E74A3B',
-                confirmButtonText: 'ตกลง',
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    console.log(id);
-                    $.ajax({
-                        url: "../../server/product/",
-                        type: 'POST',
-                        data: {
-                            action: 'delete',
-                            id: id
-                        },
-                        success: function() {
-                            $('#dataT').DataTable().ajax.reload();
-                        },
-                        error: function() {
-                            alert('ไม่สามารถเพิ่มข้อมูลได้');
-                        }
-                    })
-                }
-            })
-        }
     </script>
 </body>
 

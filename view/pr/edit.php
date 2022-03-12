@@ -63,18 +63,14 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
     <div class="row p-4">
         <div class="col-md-12">
             <div class="card card-primary">
-                <div class="card-header">สร้างใบขอซื้อ (PR)</div>
+                <div class="card-header bg-warning text-white">
+                    <h3>แก้ไขสร้างใบขอซื้อ (PR)</h3>
+                </div>
                 <div class="card-body">
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active text-dark" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link text-dark" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link text-dark" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
                         </li>
                     </ul>
                     <!-- info -->
@@ -183,9 +179,8 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                             <th scope="col" class="text-nowrap">#</th>
                                             <th scope="col" class="text-nowrap">รูป</th>
                                             <th scope="col" class="text-nowrap">รหัสสินค้า</th>
-                                            <th scope="col" class="text-nowrap">ชื่อสินค้า</th>
+                                            <th scope="col" colspan="2" class="text-nowrap">ชื่อสินค้า</th>
                                             <th scope="col" class="text-nowrap">หน่วยนับ</th>
-                                            <th scope="col" class="text-nowrap">คลัง</th>
                                             <th scope="col" class="text-nowrap">ราคา</th>
                                             <th scope="col" class="text-nowrap">จำนวน</th>
                                             <th scope="col" class="text-nowrap">ส่วนลด %</th>
@@ -205,9 +200,8 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                                     <?php echo $item['id'] ?>
                                                     <input type="hidden" name="product_code[]" value="<?php echo $item['product_id'] ?>" required>
                                                 </td>
-                                                <td><?php echo $item['product_name'] ?></td>
+                                                <td colspan="2"><?php echo $item['product_name'] ?></td>
                                                 <td><?php echo $item['unit_name'] ?></td>
-                                                <td><?php echo $item['company_name'] ?></td>
                                                 <td>
                                                     <input type="number" class="form-control text-right price" oninput='getValue(this)' name="price[]" value="<?php echo $item['price'] ?>" required>
                                                 </td>
@@ -252,8 +246,8 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                             <td colspan="5" class="text-right">ภาษีมูลค่าเพิ่ม</td>
                                             <td colspan="3" class="text-right">
                                                 <select name="Tex" id="selectTax" class="form-control">
-                                                    <option value="1" selected>PO-EX7</option>
-                                                    <option value="2">PO-NO</option>
+                                                    <option value="1" <?php echo $row_purchase['totalVat'] != 0 ? "selected" : '' ?>>PO-EX7</option>
+                                                    <option value="2" <?php echo $row_purchase['totalVat'] == 0 ? "selected" : '' ?>>PO-NO</option>
                                                 </select>
                                             </td>
                                             <td colspan="1" class="text-right">7%</td>

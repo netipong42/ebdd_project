@@ -9,7 +9,7 @@ try {
                 FROM purchase AS p
                 INNER JOIN supplier AS s
                 ON p.supplier_code = s.id
-                WHERE p.status IN (1,2,3)
+                WHERE p.status >=3
                 ORDER BY id DESC";
         $query = $conn->prepare($sql);
         $query->execute();

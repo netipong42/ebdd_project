@@ -64,8 +64,11 @@ try {
         $query_detail = $conn->prepare($sql_detail);
         $query_detail->execute($data_detail);
     }
-
-
+    if ($query_detail) {
+        $_SESSION["myalert"] = "success";
+    } else {
+        $_SESSION["myalert"] = "error";
+    }
     header("Location: ../../view/pr/index.php");
 } catch (Exception $e) {
     echo $e->getMessage();

@@ -229,6 +229,30 @@ $mpdf->SetHTMLFooter('
             </div>
     </div>
 </div>
+    <div class="row ">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="text-center signature">
+                        <div class="">________________________</div>
+                        <div class="">ผู้จัดทำ</div>
+                        <div class="">วันที่ _____/_____/_____</div>
+                    </td>
+                    <td class="text-center signature">
+                        <div class="">________________________</div>
+                        <div class="">ผู้ตรวจสอบ</div>
+                        <div class="">วันที่ _____/_____/_____</div>
+                    </td>
+                    <td class="text-center signature">
+                        <div class="">________________________</div>
+                        <div class="">ผู้อนุมัติ</div>
+                        <div class="">วันที่ _____/_____/_____</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
 <div class="text-center">Page ' . '{PAGENO}' . " / " . '{nb}' . '</div>
 ');
 ?>
@@ -244,8 +268,9 @@ $mpdf->SetHTMLFooter('
 
 <body>
     <!-- เนื้อหา -->
+
     <div class="row">
-        <!-- <embed src="./test.pdf" type="application/pdf" frameBorder="0" scrolling="auto" height="1000" width="100%" /> -->
+        <embed src="./test.pdf" type="application/pdf" frameBorder="0" scrolling="auto" height="1000" width="100%" />
         <?php ob_start();  ?>
         <!-- Start PDF -->
         <div class="content">

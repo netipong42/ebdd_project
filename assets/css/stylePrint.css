@@ -158,3 +158,11 @@ thead tr {
 thead tr th {
   color: #fff;
 }
+.d-none {
+  display: none;
+}
+.signature {
+  padding-top: 20px;
+  height: 100px;
+  border-radius: 2rem;
+}

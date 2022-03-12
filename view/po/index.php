@@ -16,13 +16,11 @@
     <?php require_once("../template/navbar.php") ?>
     <!-- content -->
     <div class="row">
-        <div class="col-12 my-3">
-            <a href="./form.php" class="btn btn-success">สร้างใบเสนอซื้อ</a>
-        </div>
+
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h3> ใบเสนอซื้อ (PR) </h3>
+                    <h3> ใบสั่งซื้อ (PO) </h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -47,7 +45,7 @@
             "responsive": true,
 
             ajax: {
-                url: '../../server/pr/',
+                url: '../../server/po/',
                 data: function() {
                     return {
                         action: 'show'
@@ -109,28 +107,16 @@
                     render: function(data, type, row, meta) {
                         let id = row['id'];
                         let status = row['status'];
-                        if (status == 1 || status == 2) {
+                        if (status == 3) {
                             return `
                             <div>
-                                <a href="./edit.php?id=${id}" class="btn btn-warning btn-icon-split btn-sm" >
-                                    <span class="icon text-white-50">
-                                        <i class="far fa-edit"></i>
-                                    </span>
-                                    <span class="text">แก้ไข</span>
-                                </a>
                                     <a href="./info.php?id=${id}" class="btn btn-success btn-icon-split btn-sm" >
                                     <span class="icon text-white-50">
                                         <i class="far fa-edit"></i>
                                     </span>
                                     <span class="text">อนุมัติ</span>
                                 </a>
-                                <a class="btn btn-danger btn-icon-split btn-sm" onclick="confirmDelete(${id})">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-info"></i>
-                                    </span>
-                                    <span class="text">ลบ</span>
-                                </a>
-                                <a href="./pr_pdf.php?id=${id}" target="_blank" class="btn btn-info btn-icon-split btn-sm">
+                                <a href="./po_pdf.php?id=${id}" target="_blank" class="btn btn-info btn-icon-split btn-sm">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-info"></i>
                                     </span>
@@ -141,7 +127,7 @@
                         } else {
                             return `
                             <div>
-                           <a href="./pr_pdf.php?id=${id}" target="_blank" class="btn btn-info btn-icon-split btn-sm">
+                                <a href="./po_pdf.php?id=${id}" target="_blank" class="btn btn-info btn-icon-split btn-sm">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-info"></i>
                                     </span>
@@ -168,8 +154,16 @@
                             color = 'danger';
                         }
                         if (status == 3) {
-                            text = 'ผ่าน';
+                            text = 'รออนุมัติของ';
+                            color = 'warning';
+                        }
+                        if (status == 4) {
+                            text = 'รับของแล้ว';
                             color = 'success';
+                        }
+                        if (status == 5) {
+                            text = 'ไม่สำเร็จ';
+                            color = 'danger';
                         }
                         return `
                             <div>
@@ -195,7 +189,7 @@
                 if (result.isConfirmed) {
                     console.log(id);
                     $.ajax({
-                        url: "../../server/pr/",
+                        url: "../../server/po/",
                         type: 'POST',
                         data: {
                             action: 'delete',

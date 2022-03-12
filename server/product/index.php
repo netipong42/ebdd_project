@@ -18,6 +18,7 @@ try {
             'product_info' => $_POST['product_info'],
             'product_type' => $_POST['product_type'],
             'product_unit' => $_POST['product_unit'],
+            'product_house' => $_POST['product_house'],
             'product_supplier' => $_POST['product_supplier'],
             'product_img' => $newname,
         ];
@@ -30,6 +31,7 @@ try {
                         product_info, 
                         product_type, 
                         product_unit, 
+                        product_house, 
                         product_supplier, 
                         product_img
                         ) 
@@ -40,6 +42,7 @@ try {
                         :product_info, 
                         :product_type, 
                         :product_unit, 
+                        :product_house, 
                         :product_supplier, 
                         :product_img
                         )";
@@ -55,16 +58,45 @@ try {
         p.*,
         t.type_name,
         s.company_name,
-        u.unit_name 
+        u.unit_name ,
+        h.house_name
         FROM product AS p
         LEFT JOIN product_type AS t
         ON p.product_type = t.id 
         LEFT JOIN supplier AS s
         ON p.product_supplier = s.id 
         LEFT JOIN product_unit AS u
-        ON p.product_unit = u.id";
+        ON p.product_unit = u.id
+        LEFT JOIN product_house AS h
+        ON p.product_house = h.id";
         $query = $conn->prepare($sql);
         $query->execute();
+        $row = $query->fetchAll();
+        echo json_encode($row);
+    }
+    if (@$_POST['action'] == "showProductHouse") {
+        $data = [
+            'house_id' => $_POST['idHouse']
+        ];
+        $sql = "SELECT 
+        p.*,
+        t.type_name,
+        s.company_name,
+        u.unit_name ,
+        h.house_name
+        FROM product AS p
+        LEFT JOIN product_type AS t
+        ON p.product_type = t.id 
+        LEFT JOIN supplier AS s
+        ON p.product_supplier = s.id 
+        LEFT JOIN product_unit AS u
+        ON p.product_unit = u.id
+        LEFT JOIN product_house AS h
+        ON p.product_house = h.id
+        WHERE p.product_house = :house_id
+        ";
+        $query = $conn->prepare($sql);
+        $query->execute($data);
         $row = $query->fetchAll();
         echo json_encode($row);
     }
@@ -90,6 +122,7 @@ try {
             'product_info' => $_POST['product_info'],
             'product_type' => $_POST['product_type'],
             'product_unit' => $_POST['product_unit'],
+            'product_house' => $_POST['product_house'],
             'product_supplier' => $_POST['product_supplier'],
 
         ];
@@ -122,6 +155,7 @@ try {
                         product_info = :product_info, 
                         product_type = :product_type, 
                         product_unit = :product_unit, 
+                        product_house = :product_house, 
                         product_supplier = :product_supplier, 
                         product_img = :product_img
                         WHERE id = :id";
@@ -138,6 +172,7 @@ try {
                         product_info = :product_info, 
                         product_type = :product_type,
                         product_unit = :product_unit,
+                        product_house = :product_house, 
                         product_supplier = :product_supplier
                         WHERE id = :id";
             $query = $conn->prepare($sql);

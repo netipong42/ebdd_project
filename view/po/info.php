@@ -63,8 +63,8 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
     <div class="row p-4">
         <div class="col-md-12">
             <div class="card card-primary">
-                <div class="card-header bg-info text-white">
-                    <h3>ตรวจสอบใบขอซื้อ (PR)</h3>
+                <div class="card-header bg-success text-white">
+                    <h3>ใบสั่งซื้อ (PO)</h3>
                 </div>
                 <div class="card-body">
 
@@ -74,7 +74,7 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                         </li>
                     </ul>
                     <!-- info -->
-                    <form action="../../server/pr/pr_update.php" method="post" enctype="multipart/form-data">
+                    <form action="../../server/po/po_update.php" method="post" enctype="multipart/form-data">
 
                         <div class="tab-content pt-4" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -262,8 +262,9 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
                                 </table>
                                 <!-- product -->
                                 <div class="text-right">
-                                    <a href="../../server/pr/pr_status.php?id=<?php echo $row_purchase['id'] ?>&status=2" class="btn btn-warning">ไม่อนุมัติ</a>
-                                    <a href="../../server/pr/pr_status.php?id=<?php echo $row_purchase['id'] ?>&status=3" class="btn btn-success">อนุมัติ</a>
+                                    <a href="./index.php" class="btn btn-info">กลับ</a>
+                                    <button class="btn btn-warning" name="btnstatus" value="cancel">ไม่อนุมัติ</button>
+                                    <button class="btn btn-success" name="btnstatus" value="success">อนุมัติ</button>
                                 </div>
                             </div>
 

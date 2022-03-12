@@ -15,6 +15,12 @@ $query_unit = $conn->prepare($sql_unit);
 $query_unit->execute();
 $row_unit = $query_unit->fetchAll();
 
+
+$sql_house = "SELECT * FROM product_house ORDER BY house_name ASC";
+$query_house = $conn->prepare($sql_house);
+$query_house->execute();
+$row_house = $query_house->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,8 +99,19 @@ $row_unit = $query_unit->fetchAll();
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-4">
+                                        <div class="form-group">
+                                            <label for="product_name">คลังสินค้า</label>
+                                            <select name="product_house" class="form-control" required>
+                                                <option value="">---เลือกคลังสินค้า---</option>
+                                                <?php foreach ($row_house as $item) : ?>
+                                                    <option value="<?php echo $item['id'] ?>"><?php echo $item['house_name'] ?></option>
+                                                <?php endforeach ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label for="img" class="form-label">รูปสินค้า</label>
                                             <div class="custom-file">
