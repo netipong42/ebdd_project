@@ -63,10 +63,20 @@ $rowHouse = $queryHouse->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fas fa-user-edit"></i>
                 <span>จัดการตัวแทนจำหน่าย</span></a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" href="../user">
-                <i class="fas fa-user-edit"></i>
-                <span>สมาชิก</span></a>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>จัดการสมาชิก</span>
+            </a>
+            <div id="collapseUser" class="collapse">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">จัดการสินค้า:</h6>
+                    <a class="collapse-item" href="../user">สมาชิก</a>
+                    <a class="collapse-item" href="../authorize">authorize</a>
+
+                </div>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo">

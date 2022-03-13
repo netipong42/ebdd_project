@@ -16,6 +16,7 @@
     <?php require_once("../template/navbar.php") ?>
     <!-- content -->
     <div class="row">
+
         <div class="col-12 my-3">
             <a href="./form.php" class="btn btn-success">สร้างใบเสนอซื้อ</a>
         </div>

@@ -22,3 +22,20 @@ function show($data)
     print_r($data);
     echo "</pre>";
 }
+function checkModule($user_no, $module, $conn)
+{
+    try {
+        $dataCheck = [
+            'user_no' => $user_no,
+            'module_no' => $module
+        ];
+        $sqlCheck = "SELECT * FROM authorize WHERE user_no=:user_no AND module_no = :module_no";
+        $queryCheck = $conn->prepare($sqlCheck);
+        $queryCheck->execute($dataCheck);
+        if ($queryCheck->rowCount() == 0) {
+            echo '<meta http-equiv="refresh" content="0;url=../main/login.php">';
+        }
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
