@@ -64,6 +64,11 @@ $rowHouse = $queryHouse->fetchAll(PDO::FETCH_ASSOC);
                 <span>จัดการตัวแทนจำหน่าย</span></a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="../user">
+                <i class="fas fa-user-edit"></i>
+                <span>สมาชิก</span></a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>จัดการสินค้า</span>
@@ -95,7 +100,7 @@ $rowHouse = $queryHouse->fetchAll(PDO::FETCH_ASSOC);
         </li>
         <hr class="sidebar-divider d-none d-md-block">
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="../../server/logout.php">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>ออกจากระบบ</span></a>
         </li>

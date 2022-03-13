@@ -16,6 +16,7 @@ try {
         'totalVat'      => $_POST['totalVat'],
         'totalFanal'    => $_POST['totalFanal'],
         'status'        => 1,
+        'user_create'    => $_SESSION['user_id'],
     ];
 
     $sql_purchase = "INSERT INTO purchase 
@@ -32,7 +33,8 @@ try {
                 totalDiscount,
                 totalVat,
                 totalFanal,
-                status
+                status,
+                user_create
                 )
                 VALUES(
                 :supplier_code,
@@ -47,7 +49,8 @@ try {
                 :totalDiscount,
                 :totalVat,
                 :totalFanal,
-                :status
+                :status,
+                :user_create
                 )
                 ";
     $query_purchase = $conn->prepare($sql_purchase);

@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta name="viewport" content="width=1000"> -->
-    <link rel="shortcut icon" href="./assets/img/logo.png" type="image/x-icon">
-    <?php require_once("./linkheader.php") ?>
-    <title>Banking game Admin</title>
+    <link rel="shortcut icon" href="../../assets/img/logo.png" type="image/x-icon">
+    <?php require_once("../template/linkheader.php") ?>
+    <title>Admin</title>
 </head>
 
-<body class="bg-gradient-success">
+<body class="bg-gradient-danger">
 
     <!-- content -->
     <div class="container">
@@ -24,21 +23,21 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-6 d-lg-block ">
-                                <img src="./assets/img/logo.png" alt="" class="img-fluid mt-3 p-3">
+                                <img src="../../assets/img/logo.png" alt="" class="img-fluid mt-3 p-3">
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Banking game Admin</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Admin</h1>
                                     </div>
-                                    <form class="user" action="./server/login.php" method="post">
+                                    <form class="user" action="../../server/login.php" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user" placeholder="Enter Username" name="user" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" placeholder="Password" name="pass" required>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                        <button type="submit" class="btn btn-success btn-user btn-block">Login</button>
                                     </form>
 
                                 </div>
@@ -53,7 +52,8 @@
 
     </div>
     <!-- content -->
-    <?php require_once("./linkfooter.php") ?>
+    <?php require_once("../template/footer.php") ?>
+    <?php require_once("../template/linkfooter.php") ?>
 </body>
 
 </html>

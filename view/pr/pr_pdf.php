@@ -54,18 +54,25 @@ $sql_purchase = "SELECT
                 ap.ProvinceThai,
                 ad.DistrictName,
                 ab.TambonName,
-                ab.zipcode
+                ab.zipcode,
+                u.user_name,
+                u.user_last,
+                tu.title_name AS user_title
                 FROM purchase AS p
                 INNER JOIN supplier AS s
                 ON p.supplier_code = s.id
-                INNER JOIN title_name AS t
-                ON s.title = t.id
                 INNER JOIN address_province AS ap
                 ON s.province = ap.ProvinceID
                 INNER JOIN address_district AS ad
                 ON s.district = ad.DistrictID
                 INNER JOIN address_tambon AS ab
                 ON s.tambon = ab.TambonID
+                INNER JOIN users AS u
+                ON p.user_create = u.id
+                INNER JOIN title_name AS t
+                ON s.title = t.id
+                INNER JOIN title_name AS tu
+                ON u.user_title = tu.id
                 WHERE p.id = :id";
 $query_purchase = $conn->prepare($sql_purchase);
 $query_purchase->execute($data);
@@ -170,7 +177,7 @@ $mpdf->SetHTMLHeader('
                         <div class="col-6">
                          <div class="row p">
                                 <div class="col-6">ผู้จัดทำ</div>
-                                <div class="col-6">ABC .Co.ltd</div>
+                                <div class="col-6">' . $row_purchase['user_title'] . $row_purchase['user_name'] . " " . $row_purchase['user_last'] . '</div>
                             </div>
                         </div>
                     </div>
