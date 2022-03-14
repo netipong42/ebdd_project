@@ -29,7 +29,7 @@ checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
                 <div class="card-body">
                     <form id="formType">
                         <div class="form-group">
-                            <label for="type_name">ประเภทสินค้า</label>
+                            <label for="type_name">หน่วยนับสินค้า</label>
                             <input type="text" class="form-control" id="unit_name" name="unit_name" placeholder="หน่วยนับสินค้า..." required>
                             <input type="hidden" name="action" value="insert" required>
                         </div>
@@ -43,7 +43,7 @@ checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
         <div class="col-8">
             <div class="card">
                 <div class="card-header bg-success text-white">
-                    <h3> ประเภทสินค้า </h3>
+                    <h3> หน่วยนับสินค้า </h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

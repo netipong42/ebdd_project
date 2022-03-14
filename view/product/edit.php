@@ -50,8 +50,8 @@ $row_supplier = $query_supplier->fetchAll();
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h3>เพิ่มสินค้า</h3>
+                <div class="card-header bg-warning text-white">
+                    <h3>แก้ไขสินค้า</h3>
                 </div>
                 <div class="card-body">
                     <form id='formProduct' method="post" enctype="multipart/form-data">
