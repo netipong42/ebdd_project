@@ -1,5 +1,6 @@
 <?php
 require_once('../../server/connect.php');
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 $data = [
     'id' => $_GET['id'],
 ];
@@ -225,38 +226,37 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
 
                                             <td colspan="5" class="text-right">รวมเงิน</td>
                                             <td colspan="5" class="text-right" id="totalAll">
-                                                <?php echo $row_purchase['totalMoney']  ?>
+                                                <?php echo number_format($row_purchase['totalMoney'], 2)  ?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">ส่วนลดการค้า</td>
                                             <td colspan="4" class="text-right">
                                                 <div class="d-flex align-items-center">
-                                                    <input type="number" placeholder="0" min="0" name="discountPer" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right" value="<?php echo $row_purchase["discountPer"] ?>" readonly>
+                                                    <input type="number" placeholder="0" min="0" name="discountPer" id="totalDiscountPer" oninput='getValue(this)' class="form-control col-2 ml-auto text-right" value="<?php echo $row_purchase["discountPer"] ?>">
                                                     <span class="ml-3">%</span>
                                                 </div>
                                             </td>
-                                            <td colspan="1" class="text-right" id="totalDiscountNum"> <?php echo $row_purchase['totalDiscount']  ?></td>
+                                            <td colspan="1" class="text-right" id="totalDiscountNum"> <?php echo number_format($row_purchase['totalDiscount'], 2)  ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">เงินก่อนหักภาษี</td>
-                                            <td colspan="5" class="text-right" id="beforeTax"><?php echo $row_purchase['totalMoney'] + $row_purchase['totalDiscount']  ?></td>
+                                            <td colspan="5" class="text-right" id="beforeTax"><?php echo number_format($row_purchase['totalMoney'] + $row_purchase['totalDiscount'], 2)  ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5" class="text-right">ภาษีมูลค่าเพิ่ม</td>
                                             <td colspan="3" class="text-right">
-                                                <?php if ($row_purchase['totalVat'] == 0) { ?>
-                                                    <input type="text" class="form-control" value="PO-NO" readonly>
-                                                <?php } else { ?>
-                                                    <input type="text" class="form-control" value="PO-EX7" readonly>
-                                                <?php } ?>
+                                                <select name="Tex" id="selectTax" class="form-control">
+                                                    <option value="1" <?php echo $row_purchase['totalVat'] != 0 ? "selected" : '' ?>>PO-EX7</option>
+                                                    <option value="2" <?php echo $row_purchase['totalVat'] == 0 ? "selected" : '' ?>>PO-NO</option>
+                                                </select>
                                             </td>
                                             <td colspan="1" class="text-right">7%</td>
-                                            <td colspan="1" class="text-right" id="tax7"><?php echo $row_purchase['totalVat']  ?></td>
+                                            <td colspan="1" class="text-right" id="tax7"><?php echo number_format($row_purchase['totalVat'], 2)  ?></td>
                                         </tr>
                                         <tr>
                                             <td colspan=" 5" class="text-right">จำนวนเงินทั้งสิน</td>
-                                            <td colspan="5" class="text-right" id="finalTotal"><?php echo $row_purchase['totalFanal']  ?></td>
+                                            <td colspan="5" class="text-right" id="finalTotal"><?php echo number_format($row_purchase['totalFanal'], 2)  ?></td>
                                         </tr>
                                     </tfoot>
                                 </table>

@@ -1,6 +1,6 @@
 <?php
 require_once('../../server/connect.php');
-
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 
 $data = ['id' => $_GET['id']];
 $sql = "SELECT * FROM product WHERE id = :id";

@@ -1,3 +1,8 @@
+<?php
+require_once('../../server/connect.php');
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

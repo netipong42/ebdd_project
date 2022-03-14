@@ -1,5 +1,6 @@
 <?php
 require_once('../../server/connect.php');
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 $sql = "SELECT * FROM product_type ORDER BY type_name ASC";
 $query = $conn->prepare($sql);
 $query->execute();
@@ -440,7 +441,11 @@ $row_supplier = $query_supplier->fetchAll();
                             `,
                             item.id,
                             item.product_name,
-                            item.product_price,
+                            `
+                            <div>
+                               ${new Intl.NumberFormat().format(item.product_price) }
+                            </div>
+                            `,
                             item.type_name,
                             item.company_name,
                             item.product_stock,

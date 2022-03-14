@@ -1,6 +1,6 @@
 <?php
 require_once('../../server/connect.php');
-
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 $sql = "SELECT * FROM product_type";
 $query = $conn->prepare($sql);
 $query->execute();

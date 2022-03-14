@@ -1,6 +1,8 @@
 <?php
 // House
 require_once('../../server/connect.php');
+
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 $data = ['id' => $_GET['id']];
 $slqHouse = "SELECT * FROM product_house AS h WHERE id=:id";
 $queryHouse = $conn->prepare($slqHouse);

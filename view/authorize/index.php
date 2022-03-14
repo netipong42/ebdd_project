@@ -1,6 +1,7 @@
 <?php
 require_once("../../server/connect.php");
-checkModule(@$_SESSION["user_no"], basename(dirname(__FILE__)), $conn);
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
+
 try {
     $slqSelect = "SELECT
         u.id,
@@ -30,7 +31,7 @@ try {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin</title>
     <?php require_once("../template/linkheader.php") ?>
 </head>
 
@@ -38,6 +39,7 @@ try {
     <?php require_once("../template/navbar.php") ?>
     <!-- เนื้อหา -->
     <div class="">
+
         <div class="card">
             <div class="card-header">
                 <h1>List Authorize</h1>

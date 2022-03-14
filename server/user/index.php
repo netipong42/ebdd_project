@@ -18,6 +18,7 @@ try {
             'user_title' => $_POST['user_title'],
             'user_name' => $_POST['user_name'],
             'user_last' => $_POST['user_last'],
+            'user_status' => $_POST['user_status'],
             'user_img' => $newname,
         ];
 
@@ -29,6 +30,7 @@ try {
                     user_title,
                     user_name,
                     user_last,
+                    user_status,
                     user_img
                         ) 
                     VALUES (
@@ -38,6 +40,7 @@ try {
                     :user_title,
                     :user_name,
                     :user_last,
+                    :user_status,
                     :user_img
                         )";
         $query = $conn->prepare($sql);
@@ -80,6 +83,7 @@ try {
             'user_title' => $_POST['user_title'],
             'user_name' => $_POST['user_name'],
             'user_last' => $_POST['user_last'],
+            'user_status' => $_POST['user_status'],
         ];
         if ($_FILES['user_img']['name'] != "") {
 
@@ -108,6 +112,7 @@ try {
                         user_title = :user_title, 
                         user_name = :user_name, 
                         user_last = :user_last, 
+                        user_status = :user_status, 
                         user_img = :user_img
                         WHERE id = :id";
             $query = $conn->prepare($sql);
@@ -120,7 +125,8 @@ try {
                        user_email = :user_email, 
                         user_title = :user_title, 
                         user_name = :user_name, 
-                        user_last = :user_last
+                        user_last = :user_last,
+                        user_status = :user_status
                         WHERE id = :id";
             $query = $conn->prepare($sql);
             $query->execute($data);

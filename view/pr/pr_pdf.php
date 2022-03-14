@@ -2,6 +2,7 @@
 require_once("../../server/connect.php");
 require_once("../../server/thaibath.php");
 require_once __DIR__ . '../../../vendor/autoload.php';
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 // PDF
 $defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
 $fontDirs = $defaultConfig['fontDir'];
@@ -104,7 +105,7 @@ $row_detail = $query_detail->fetchAll(PDO::FETCH_ASSOC);
 $mpdf->SetHTMLHeader('
 <div class="row">
     <div class="col-6">
-        <img src="https://i-need-game.com/img/logo.png" alt="logo" width="150">
+        <img src="../../assets/img/logo.png" alt="logo" width="150">
     </div>
     <div class="col-6">
         <div class="text-right">' . $row_company['company_name'] . '</div>
@@ -291,14 +292,14 @@ $mpdf->SetHTMLFooter('
         $stylesheet = file_get_contents('../../assets/css/stylePrint.css');
         $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
         $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
-        $mpdf->Output("test.pdf", "F");
+        $mpdf->Output("pr.pdf", "F");
         ob_end_flush();
         ?>
         <?php
-        if (file_exists("test.pdf")) {
-            header("Location:./test.pdf");
+        if (file_exists("pr.pdf")) {
+            echo '<meta http-equiv="refresh" content="0;url=./pr.pdf">';
         } else {
-            header("LOcation:./index.php");
+            header("Location:./index.php");
         }
         ?>
     </div>

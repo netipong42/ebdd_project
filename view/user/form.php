@@ -84,13 +84,23 @@ $row_title = $query_title->fetchAll();
 
 
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label for="img" class="form-label">รูปสมาชิก</label>
                                             <div class="custom-file">
                                                 <input type="file" onChange="PreviewImage(event)" class="custom-file-input" name="user_img" id="uploadImage" accept="image/*" required>
                                                 <label class="custom-file-label" for="uploadImage">Choose file</label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="user_price">ตำแหน่ง</label>
+                                            <select class="form-control" id="user_status" name="user_status" required>
+                                                <option value="">--กรุณาเลือก--</option>
+                                                <option value="M">Member</option>
+                                                <option value="A">Admin</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

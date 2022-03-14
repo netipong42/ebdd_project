@@ -25,15 +25,25 @@ function show($data)
 function checkModule($user_no, $module, $conn)
 {
     try {
-        $dataCheck = [
-            'user_no' => $user_no,
-            'module_no' => $module
+
+        $dataCheckStatus = [
+            "user_no" => $user_no
         ];
-        $sqlCheck = "SELECT * FROM authorize WHERE user_no=:user_no AND module_no = :module_no";
-        $queryCheck = $conn->prepare($sqlCheck);
-        $queryCheck->execute($dataCheck);
-        if ($queryCheck->rowCount() == 0) {
-            echo '<meta http-equiv="refresh" content="0;url=../main/login.php">';
+        $sqlCheckStatus = "SELECT * FROM users WHERE id = :user_no";
+        $queryCheckStatus = $conn->prepare($sqlCheckStatus);
+        $queryCheckStatus->execute($dataCheckStatus);
+        $rowCheckStatus = $queryCheckStatus->fetch();
+        if ($rowCheckStatus['user_status'] != "A") {
+            $dataCheck = [
+                'user_no' => $user_no,
+                'module_no' => $module
+            ];
+            $sqlCheck = "SELECT * FROM authorize WHERE user_no=:user_no AND module_no = :module_no";
+            $queryCheck = $conn->prepare($sqlCheck);
+            $queryCheck->execute($dataCheck);
+            if ($queryCheck->rowCount() == 0) {
+                echo '<meta http-equiv="refresh" content="0;url=../main/login.php">';
+            }
         }
     } catch (PDOException $e) {
         echo $e->getMessage();

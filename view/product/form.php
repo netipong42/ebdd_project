@@ -1,5 +1,6 @@
 <?php
 require_once('../../server/connect.php');
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 $sql = "SELECT * FROM product_type ORDER BY type_name ASC";
 $query = $conn->prepare($sql);
 $query->execute();
@@ -63,7 +64,7 @@ $row_house = $query_house->fetchAll();
                                         </div>
                                         <div class="col-6">
                                             <label for="product_stock">จำนวนสินค้า</label>
-                                            <input type="number" class="form-control" id="product_stock" name="product_stock" placeholder="จำนวนสินค้า..." required>
+                                            <input type="number" class="form-control" id="product_stock" name="product_stock" placeholder="จำนวนสินค้า..." value="0" required>
                                         </div>
                                     </div>
                                 </div>

@@ -16,7 +16,7 @@ try {
 
     if ($query->rowCount() == 1) {
         $_SESSION["user_id"] = $row["id"];
-        Header("Location:../view/pr");
+        Header("Location:../view/main/");
     } else {
         Header("Location:../view/main/login.php");
     }

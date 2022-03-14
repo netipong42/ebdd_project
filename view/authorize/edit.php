@@ -1,6 +1,6 @@
 <?php
 require_once("../../server/connect.php");
-checkModule(@$_SESSION["user_no"], basename(dirname(__FILE__)), $conn);
+checkModule(@$_SESSION["user_id"], basename(dirname(__FILE__)), $conn);
 $data = ['id' => $_GET['id']];
 $sql = "SELECT 
         u.id,
@@ -24,7 +24,7 @@ $row = $query->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin</title>
     <?php require_once("../template/linkheader.php") ?>
 </head>
 

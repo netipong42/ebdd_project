@@ -76,6 +76,11 @@
                     className: ''
                 },
                 {
+                    data: 'user_status',
+                    title: "สถานะ",
+                    className: ''
+                },
+                {
                     data: 'id',
                     title: "แก้ไข",
                     className: ''
@@ -115,7 +120,7 @@
                     }
                 },
                 {
-                    targets: 4,
+                    targets: 5,
                     render: function(data, type, row, meta) {
                         let id = row['id'];
                         return `

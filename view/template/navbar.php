@@ -27,7 +27,7 @@ $rowHouse = $queryHouse->fetchAll(PDO::FETCH_ASSOC);
     <!-- Sidebar -->
     <ul class="navbar-nav bg-ntp sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../main">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -37,7 +37,7 @@ $rowHouse = $queryHouse->fetchAll(PDO::FETCH_ASSOC);
         <hr class="sidebar-divider my-3">
 
         <li class="nav-item">
-            <a class="nav-link" href="index.php">
+            <a class="nav-link" href="../main">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>หน้าหลัก</span></a>
         </li>
